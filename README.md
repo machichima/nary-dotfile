@@ -15,10 +15,16 @@
     - working with ranger in nvim
 - nvim-window-picker
     - navigate through windows
+
+### Terminal
+
 - toggleterm
     - create toggle terminal (float, horizontal, vertical, ...)
 - toggleterm-manager (in telescope.lua)
     - manage toggle term terminals
+- noice
+    - a popup cmd and notice
+    - also make the view prettier
 
 ### Easy editing
 - nvim-surround
