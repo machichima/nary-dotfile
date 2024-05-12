@@ -15,6 +15,10 @@
     - working with ranger in nvim
 - nvim-window-picker
     - navigate through windows
+- toggleterm
+    - create toggle terminal (float, horizontal, vertical, ...)
+- toggleterm-manager (in telescope.lua)
+    - manage toggle term terminals
 
 ### Easy editing
 - nvim-surround
@@ -47,3 +51,20 @@
     - provide Vscode like snippers
 - cmp-nvim-lsp
     - add sources to lsp, so that we can use multiple languages
+
+#### debugger
+- nvim-dap
+- nvim-dap-ui
+    - pretty ui for bebugging
+
+#### For Python
+- nvim-dap-python
+    - working with nvim-dap
+- venv-selector
+    - select python venv
+    - work with debugger
+- iron (exclude for now)
+    - can run the selected line or the whole file
+
+> Use toggle term to run one by one, then use toggle-manager to manage those terminal
+
