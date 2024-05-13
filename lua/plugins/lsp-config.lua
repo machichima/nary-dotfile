@@ -25,9 +25,9 @@ return {
 				capabilities = capabilities,
       }	
 
-      lspconfig.ltex.setup{
-        capabilities = capabilities,
-      }
+      -- lspconfig.ltex.setup{
+      --   capabilities = capabilities,
+      -- }
 
       -- lua
 			lspconfig.lua_ls.setup{
