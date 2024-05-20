@@ -10,12 +10,8 @@ vim.opt.conceallevel = 1;
 vim.g.mapleader = " "
 vim.keymap.set('n', '<C-t>', ':tabs<CR>', {})
 vim.keymap.set('i', '<C-v>', '<ESC>l"+Pli') -- Paste insert mode
--- vim.keymap.set('n', 'j', 'jzz')
--- vim.keymap.set('n', 'k', 'kzz')
 
-vim.api.nvim_create_autocmd({"CursorMoved"}, {
-  callback = function ()
-    vim.api.nvim_feedkeys("zz", 'n', true)
-  end 
-
-})
+vim.keymap.set('n', 'j', 'jzz')
+vim.keymap.set('n', 'k', 'kzz')
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
