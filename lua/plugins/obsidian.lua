@@ -86,7 +86,7 @@ return {
 	lazy = true,
 	ft = "markdown",
 	-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-	-- event ={
+	-- event = {
 	--   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
 	--   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
 	--   "BufReadPre path/to/my-vault/**.md",
@@ -103,6 +103,17 @@ return {
 	config = function()
 		require("obsidian").setup(opts)
 
+		function _TELESCOPE_FIND()
+			location, name, link_type = require("obsidian.util").parse_cursor_link({ include_naked_urls = true, include_file_urls = true })
+      require("telescope.builtin").find_files({search_dirs=require('obsidian').get_client().dir, search_file=location .. ".md"})
+		end
 
+		vim.api.nvim_set_keymap(
+			"n",
+			"gf",
+			"<cmd>lua _TELESCOPE_FIND()<CR>",
+			-- Telescope find_files search_dirs=require('obsidian').get_client().dir<CR>",
+			{ noremap = true, silent = true }
+		)
 	end,
 }
