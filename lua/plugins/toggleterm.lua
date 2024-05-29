@@ -15,7 +15,6 @@ return {
       end,
 
       open_mapping = [[<c-\>]],
-
     })
 
     local Terminal = require("toggleterm.terminal").Terminal
@@ -26,10 +25,17 @@ return {
     end
 
     -- python
-    local python = Terminal:new({ cmd = "python3", hidden = true })
-
     function _PYTHON_TOGGLE()
+      local python = Terminal:new({ cmd = "ipython", hidden = true, direction = "vertical" })
       python:toggle()
+    end
+
+    -- go
+    function _GO_TOGGLE()
+      local go = Terminal:new({ direction = "vertical" })
+      local path = vim.fn.expand("%:p")
+      go:toggle()
+      go:send("go run " .. path)
     end
 
     local verSplit = Terminal:new({ direction = "vertical" })
@@ -59,5 +65,6 @@ return {
       { noremap = true, silent = true }
     )
     vim.api.nvim_set_keymap("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>tg", "<cmd>lua _GO_TOGGLE()<cr>", { noremap = true, silent = true })
   end,
 }
