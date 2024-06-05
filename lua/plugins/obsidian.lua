@@ -110,7 +110,7 @@ return {
 
 		vim.api.nvim_set_keymap(
 			"n",
-			"gf",
+			"gl",
 			"<cmd>lua _TELESCOPE_FIND()<CR>",
 			-- Telescope find_files search_dirs=require('obsidian').get_client().dir<CR>",
 			{ noremap = true, silent = true }
