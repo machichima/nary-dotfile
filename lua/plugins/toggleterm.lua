@@ -38,9 +38,8 @@ return {
       go:send("go run " .. path)
     end
 
-    local verSplit = Terminal:new({ direction = "vertical" })
-
     function _VERTICAL_SPLIT()
+      local verSplit = Terminal:new({ direction = "vertical" })
       verSplit:toggle()
     end
 
