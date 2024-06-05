@@ -30,9 +30,14 @@ vim.keymap.set("n", "<C-down>", "<C-w>-")
 
 -- copy and paste
 -- copy
-vim.keymap.set({ "n", "v" }, "y", '"+y')
-vim.keymap.set("n", "Y", '"+yg_')
-vim.keymap.set("n", "yy", '"+yy')
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>Y", '"+yg_')
+vim.keymap.set("n", "<leader>yy", '"+yy')
 -- paste
-vim.keymap.set({ "n", "v" }, "p", '"+p')
-vim.keymap.set({ "n", "v" }, "P", '"+P')
+vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')
+vim.keymap.set({ "n", "v" }, "<leader>P", '"+P')
+-- cut
+vim.keymap.set({ "n", "v" }, "<leader>d", '"+d')
+vim.keymap.set("n", "<leader>D", '"+dg_')
+vim.keymap.set("n", "<leader>dd", '"+dd')
+
