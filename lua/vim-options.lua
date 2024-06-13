@@ -41,3 +41,11 @@ vim.keymap.set({ "n", "v" }, "<leader>d", '"+d')
 vim.keymap.set("n", "<leader>D", '"+dg_')
 vim.keymap.set("n", "<leader>dd", '"+dd')
 
+-- moving lines
+vim.keymap.set("n", "<C-j>", ":m .+1<CR>==", {})
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", {})
+vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi", {})
+
+vim.keymap.set("n", "<C-k>", ":m .-2<CR>==", {})
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", {})
+vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", {})
