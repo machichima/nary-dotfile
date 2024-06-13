@@ -24,7 +24,8 @@ return {
             settings = {
               Lua = {
                 diagnostics = {
-                  globals = { "vim" },
+                  globals = { "vim", "quarto", "pandoc", "io", "string", "print", "require", "table" },
+                  disable = { "trailing-space" },
                 },
               },
             },
@@ -34,7 +35,7 @@ return {
 
       mason_lsp.setup({
         ensure_installed = { "lua_ls", "pylsp", "vimls" },
-        handlers = handlers
+        handlers = handlers,
       })
     end,
   },
@@ -82,9 +83,85 @@ return {
         capabilities = capabilities,
       })
 
+      lspconfig.ltex.setup({
+        filetypes = { "markdown" },
+        flags = { debounce_text_changes = 300 },
+        on_attach = function(client, bufnr)
+          require("ltex_extra").setup({
+            load_langs = { "en-GB" },
+            path = "~/.config/nvim/spell/en-GB",
+            -- path = vim.fn.expand('~') .. '/.local/share/ltex',
+          })
+        end,
+        settings = {
+          ltex = {
+            completionEnabled = true,
+            language = "en-GB",
+          },
+        },
+      })
+
+      local lsp_flags = {
+        allow_incremental_sync = true,
+        debounce_text_changes = 150,
+      }
+
+      lspconfig.yamlls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+        settings = {
+          yaml = {
+            schemaStore = {
+              enable = true,
+              url = "",
+            },
+          },
+        },
+      })
+
+      lspconfig.marksman.setup({
+        capabilities = capabilities,
+        filetypes = { "markdown", "quarto" },
+      })
+
+      local function get_quarto_resource_path()
+        local function strsplit(s, delimiter)
+          local result = {}
+          for match in (s .. delimiter):gmatch("(.-)" .. delimiter) do
+            table.insert(result, match)
+          end
+          return result
+        end
+
+        local f = assert(io.popen("quarto --paths", "r"))
+        local s = assert(f:read("*a"))
+        f:close()
+        return strsplit(s, "\n")[2]
+      end
+
+      local lua_library_files = vim.api.nvim_get_runtime_file("", true)
+      local lua_plugin_paths = {}
+      local resource_path = get_quarto_resource_path()
+      if resource_path == nil then
+        vim.notify_once("quarto not found, lua library files not loaded")
+      else
+        table.insert(lua_library_files, resource_path .. "/lua-types")
+        table.insert(lua_plugin_paths, resource_path .. "/lua-plugin/plugin.lua")
+      end
+
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "<space>cd", "<cmd>lua vim.diagnostic.open_float()<CR>", {})
+
+      -- Disable showing visual text for diagnostic
+      vim.diagnostic.config({
+        virtual_text = false,
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = false,
+      })
     end,
   },
 }
