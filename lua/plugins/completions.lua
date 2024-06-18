@@ -70,7 +70,7 @@ return {
           { name = "buffer" },
         }),
         view = {
-          entries = "native",
+          entries = "follow_cursor",
         },
       })
 
