@@ -62,7 +62,6 @@ local md_toc = function()
   }
 end
 
-
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
@@ -80,17 +79,14 @@ return {
         "make",
         "toml",
         "vimdoc",
+        "yaml",
         -- 'markdown'
       },
       -- auto_install = true,
       highlight = { enable = true },
       indent = { enable = true },
 
-      vim.keymap.set(
-        "n", "<leader>toc", md_toc, {} 
-      )
-
-
+      vim.keymap.set("n", "<leader>toc", md_toc, {}),
     })
   end,
 }
