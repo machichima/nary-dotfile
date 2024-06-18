@@ -62,6 +62,21 @@ local opts = {
 	--  * "notes_subdir" - put new notes in the default notes subdirectory.
 	new_notes_location = "current_dir",
 
+      -- overwrite the settings for new note
+    note_frontmatter_func = function(note)
+      local out = { tags = note.tags }
+
+      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+        print(pairs(note.metadata))
+        for k, v in pairs(note.metadata) do
+          out[k] = v
+        end
+      end
+
+      return out
+    end,
+
+
 	attachments = {
 		-- The default folder to place images in via `:ObsidianPasteImg`.
 		-- If this is a relative path it will be interpreted as relative to the vault root.
