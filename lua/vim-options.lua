@@ -50,3 +50,10 @@ vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi", {})
 vim.keymap.set("n", "<C-k>", ":m .-2<CR>==", {})
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", {})
 vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", {})
+
+-- jump between buffer
+vim.keymap.set("n", "gb", ":bnext<CR>", {})
+vim.keymap.set("n", "gB", ":bprev<CR>", {})
+
+-- close all buffer except current one
+vim.api.nvim_create_user_command("BufOnly", ":%bd|e#|bd#", {})
