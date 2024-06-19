@@ -3,7 +3,7 @@ local opts = {
   workspaces = {
     {
       name = "ds",
-      path = "~/workData/obsidian/Data Science",
+      path = "~/workData/obsidian/Data_Science",
     },
   },
   log_level = vim.log.levels.INFO,
@@ -74,6 +74,12 @@ local opts = {
     end
 
     return out
+  end,
+
+  ---@return string
+  image_name_func = function()
+    -- Prefix image names with timestamp.
+    return string.format("%s-", os.time())
   end,
 
   attachments = {
