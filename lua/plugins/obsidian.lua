@@ -95,7 +95,7 @@ local opts = {
     ---@return string
     img_text_func = function(client, path)
       path = client:vault_relative_path(path) or path
-      return string.format("![%s](%s)", path.name, path)
+      return string.format("![[%s]]", path.name)
     end,
   },
 
@@ -147,5 +147,9 @@ return {
       -- Telescope find_files search_dirs=require('obsidian').get_client().dir<CR>",
       { noremap = true, silent = true }
     )
+
+    vim.api.nvim_set_keymap("n", "<leader>so", ":ObsidianOpen<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>ty", ":ObsidianToday<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>tmr", ":ObsidianTomorrow<CR>", { noremap = true, silent = true })
   end,
 }
