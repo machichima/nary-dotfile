@@ -4,9 +4,10 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.opt.linebreak = true
 vim.opt.number = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 vim.opt.hidden = true
 vim.opt.conceallevel = 1
+vim.opt.cursorline = true
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "<C-t>", ":tabs<CR>", {})
