@@ -79,7 +79,7 @@ local opts = {
   ---@return string
   image_name_func = function()
     -- Prefix image names with timestamp.
-    return string.format("%s-", os.time())
+    return "Pasted image " .. vim.fn.strftime("%Y%m%d%H%M%S") -- string.format("%s-", os.time())
   end,
 
   attachments = {
