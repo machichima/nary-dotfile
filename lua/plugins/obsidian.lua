@@ -64,7 +64,11 @@ local opts = {
 
   -- overwrite the settings for new note
   note_frontmatter_func = function(note)
-    local out = { tags = note.tags }
+    local out = {} -- tags = note.tags
+
+    if note.tags and #note.tags > 0 then
+      out.tags = note.tags
+    end
 
     if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
       print(pairs(note.metadata))
