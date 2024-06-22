@@ -108,6 +108,22 @@ local opts = {
   },
 }
 
+-- Paste image
+local function paste_image()
+  local img_name = opts.image_name_func()
+  local target_dir = vim.fn.expand(opts.workspaces[1].path) .. "/" .. opts.attachments.img_folder
+  local filename = vim.fn.input("Enter filename: ", img_name) .. ".png"
+
+  print("paste path: ", target_dir .. "/" .. filename)
+
+  require("img-clip").paste_image({
+    template = "![[$FILE_NAME]]",
+    dir_path = opts.attachments.img_folder,
+    file_name = filename,
+    prompt_for_file_name = false,
+  })
+end
+
 return {
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
@@ -147,6 +163,8 @@ return {
       -- Telescope find_files search_dirs=require('obsidian').get_client().dir<CR>",
       { noremap = true, silent = true }
     )
+
+    vim.keymap.set("n", "<leader>si", paste_image, { noremap = true, silent = true })
 
     vim.api.nvim_set_keymap("n", "<leader>so", ":ObsidianOpen<CR>", { noremap = true, silent = true })
     vim.api.nvim_set_keymap("n", "<leader>ty", ":ObsidianToday<CR>", { noremap = true, silent = true })
