@@ -19,7 +19,12 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- set work dir to current dir
-vim.keymap.set("n", "<leader>w", "<cmd>:tcd %:h<CR>")
+vim.keymap.set(
+  "n",
+  "<leader>w",
+  "<cmd>:tcd %:h<CR>",
+  { desc = "set the workspace to current directory for the current tab" }
+)
 
 -- exit from terminal model to normal
 vim.api.nvim_set_keymap("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
