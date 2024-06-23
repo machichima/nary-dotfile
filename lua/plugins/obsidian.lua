@@ -169,9 +169,17 @@ return {
     )
 
     vim.keymap.set("n", "<leader>si", paste_image, { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>se", ":ObsidianTemplate<CR>", { noremap = true, silent = true })
 
     vim.api.nvim_set_keymap("n", "<leader>so", ":ObsidianOpen<CR>", { noremap = true, silent = true })
     vim.api.nvim_set_keymap("n", "<leader>ty", ":ObsidianToday<CR>", { noremap = true, silent = true })
     vim.api.nvim_set_keymap("n", "<leader>tmr", ":ObsidianTomorrow<CR>", { noremap = true, silent = true })
+
+    vim.keymap.set(
+      "n",
+      "<leader>sw",
+      "<cmd>:tcd " .. opts.workspaces[1].path .. "<CR>",
+      { desc = "Obsidian: set to obsidian workspace" }
+    )
   end,
 }
