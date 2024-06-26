@@ -43,13 +43,8 @@ return {
       verSplit:toggle()
     end
 
-    vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>tf",
-      "<cmd>ToggleTerm direction=float<CR>",
-      { noremap = true, silent = true }
-    )
+    vim.api.nvim_set_keymap("n", "<leader>lg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", { noremap = true, silent = true })
     -- vim.api.nvim_set_keymap("n", "<leader>tv", "<cmd>lua _VERTICAL_SPLIT()<cr>", { noremap = true, silent = true })
     vim.api.nvim_set_keymap(
       "n",
