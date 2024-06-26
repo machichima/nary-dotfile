@@ -12,7 +12,7 @@ return {
         untracked = { text = "┆" },
       },
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = false,  -- Toggle with `:Gitsigns toggle_numhl`
+      numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
       linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
       word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
       watch_gitdir = {
@@ -29,9 +29,9 @@ return {
         virt_text_priority = 100,
       },
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-      current_line_blame_formatter_opts = {
-        relative_time = false,
-      },
+      -- current_line_blame_formatter_opts = {
+      --   relative_time = false,
+      -- },
       sign_priority = 6,
       update_debounce = 100,
       status_formatter = nil, -- Use default
