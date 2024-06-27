@@ -168,7 +168,7 @@ return {
       { noremap = true, silent = true }
     )
 
-    vim.keymap.set("n", "<leader>si", paste_image, { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>si", paste_image, { noremap = true, silent = true, desc = "Obsidian Paste Image" })
     vim.keymap.set("n", "<leader>se", ":ObsidianTemplate<CR>", { noremap = true, silent = true })
 
     vim.api.nvim_set_keymap("n", "<leader>so", ":ObsidianOpen<CR>", { noremap = true, silent = true })
