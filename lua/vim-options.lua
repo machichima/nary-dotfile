@@ -67,3 +67,6 @@ vim.keymap.set("n", "tk", ":tabprevious<CR>", { silent = true })
 
 -- close all buffer except current one
 vim.api.nvim_create_user_command("BufOnly", ":%bd|e#|bd#", {})
+
+-- open app link (e.g. Zotero)
+vim.keymap.set("n", "<leader>gx", ":!explorer.exe <cfile><CR>", { silent = true, desc = "Open url through Windows" })
