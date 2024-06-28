@@ -62,7 +62,7 @@ vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", { silent = true })
 -- vim.keymap.set("n", "tk", ":bprev<CR>", { silent = true })
 
 -- jump between tabs
-vim.keymap.set("n", "tj", ":tabNext<CR>", { silent = true })
+vim.keymap.set("n", "tj", ":tabnext<CR>", { silent = true })
 vim.keymap.set("n", "tk", ":tabprevious<CR>", { silent = true })
 
 -- close all buffer except current one
