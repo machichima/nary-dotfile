@@ -31,7 +31,7 @@ set $mod Mod4
 # execute polybar
 exec_always --no-startup-id killall polybar
 # execute polybar on all monitors + prevent duplicate polybar when reload multiple times
-exec_always --no-startup-id ~/.config/polybar/launch.sh --cuts
+exec_always --no-startup-id ~/.config/polybar/launch.sh --forest
 
 # exec_always --no-startup-id polybar
 
