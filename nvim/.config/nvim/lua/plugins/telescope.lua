@@ -15,13 +15,22 @@ return {
           hidden = true,
         })
       end, { desc = "Telescope: Find files in current directory" })
-      vim.keymap.set("n", "<C-f>", builtin.live_grep, { desc = "Telescope: Live Grep in current workspace" })
+
+      vim.keymap.set("n", "F", builtin.live_grep, { desc = "Telescope: Live Grep in current workspace" })
+      vim.keymap.set("n", "<C-f>", function()
+        builtin.live_grep({
+          search_dirs = { vim.fn.expand("%:p") },
+          hidden = true,
+        })
+      end, { desc = "Telescope: Live Grep in current file" })
+
       vim.keymap.set("n", "<leader>fg", function()
         builtin.live_grep({
           cwd = vim.fn.expand("%:p:h"),
           hidden = true,
         })
       end, { desc = "Telescope: Live Grep in current directory" })
+
       vim.keymap.set("n", "<C-h>", builtin.help_tags, {})
       vim.keymap.set("n", "<leader>b", builtin.buffers, {})
 
