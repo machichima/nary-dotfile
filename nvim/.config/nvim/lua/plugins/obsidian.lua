@@ -19,6 +19,10 @@ local opts = {
     template = "@Templates/Daily_Note_Template.md",
   },
 
+  ui = {
+    enable = false,
+  },
+
   -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
   completion = {
     -- Set to false to disable completion.
