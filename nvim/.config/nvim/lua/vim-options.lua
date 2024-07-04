@@ -70,3 +70,11 @@ vim.api.nvim_create_user_command("BufOnly", ":%bd|e#|bd#", {})
 
 -- open app link (e.g. Zotero)
 vim.keymap.set("n", "<leader>gx", ":!explorer.exe <cfile><CR>", { silent = true, desc = "Open url through Windows" })
+
+-- copy filename to clipboard
+function copyFileName()
+  local filepath = vim.fn.expand("%:t")
+  vim.fn.setreg("+", filepath) -- writvim-options.luae to clippoard
+end
+
+vim.keymap.set("n", "<leader>pc", copyFileName, { noremap = true, silent = true })
