@@ -35,6 +35,9 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh --forest
 
 # exec_always --no-startup-id polybar
 
+# fcitx5 startup
+exec --no-startup-id fcitx5 -d
+
 #####################
 # workspace layout: #
 #####################
