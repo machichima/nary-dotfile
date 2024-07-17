@@ -234,8 +234,8 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 5%-
 
 bindsym $mod+j focus down
 bindsym $mod+k focus up
-bindsym $mod+i focus left
-bindsym $mod+u focus right
+bindsym $mod+i focus right
+bindsym $mod+u focus left
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
