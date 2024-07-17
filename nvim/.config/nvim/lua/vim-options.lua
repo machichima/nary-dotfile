@@ -6,7 +6,7 @@ vim.opt.linebreak = true
 vim.opt.number = true
 -- vim.opt.relativenumber = true
 vim.opt.hidden = true
-vim.opt.conceallevel = 0
+vim.opt.conceallevel = 1
 vim.opt.cursorline = true
 
 vim.g.mapleader = " "

@@ -20,7 +20,7 @@ local opts = {
   },
 
   ui = {
-    enable = false,
+    enable = true,
   },
 
   -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
