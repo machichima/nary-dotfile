@@ -5,6 +5,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
@@ -37,3 +39,5 @@ export XIM="fcitx"
 export XIM_PROGRAM="fcitx"
 export SDL_IM_MODULE="fcitx"
 export GLFW_IM_MODULE="ibus"
+
+eval "$(zoxide init bash)"
