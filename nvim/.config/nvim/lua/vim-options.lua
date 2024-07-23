@@ -1,7 +1,7 @@
 vim.cmd("set expandtab")
-vim.cmd("set tabstop=2")
-vim.cmd("set softtabstop=2")
-vim.cmd("set shiftwidth=2")
+vim.cmd("set tabstop=4")
+vim.cmd("set softtabstop=4")
+vim.cmd("set shiftwidth=4")
 vim.opt.linebreak = true
 vim.opt.number = true
 -- vim.opt.relativenumber = true
@@ -20,10 +20,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- set work dir to current dir
 vim.keymap.set(
-  "n",
-  "<leader>w",
-  "<cmd>:tcd %:h<CR>",
-  { desc = "set the workspace to current directory for the current tab" }
+    "n",
+    "<leader>w",
+    "<cmd>:tcd %:h<CR>",
+    { desc = "set the workspace to current directory for the current tab" }
 )
 
 -- exit from terminal model to normal
@@ -73,8 +73,8 @@ vim.keymap.set("n", "<leader>gx", ":!explorer.exe <cfile><CR>", { silent = true,
 
 -- copy filename to clipboard
 function copyFileName()
-  local filepath = vim.fn.expand("%:t")
-  vim.fn.setreg("+", filepath) -- writvim-options.luae to clippoard
+    local filepath = vim.fn.expand("%:t")
+    vim.fn.setreg("+", filepath) -- writvim-options.luae to clippoard
 end
 
 vim.keymap.set("n", "<leader>pc", copyFileName, { noremap = true, silent = true })
