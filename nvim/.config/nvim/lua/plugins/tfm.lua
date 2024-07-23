@@ -18,9 +18,9 @@ return {
   name = "tfm",
   lazy = false,
   opts = {
-    file_manager = "ranger",
+    file_manager = "yazi",
     enable_cmds = true,
-    replace_netrw = true,
+    -- replace_netrw = true,
   },
   keys = {
     -- Make sure to change these keybindings to your preference,
@@ -39,7 +39,7 @@ return {
           path = vim.fn.expand("%:p")
         end
         -- local cwd = vim.fn.getcwd()
-        require("tfm").select_file_manager("ranger")
+        require("tfm").select_file_manager("yazi")
         require("tfm").open(path)
       end,
       desc = "tfm",
