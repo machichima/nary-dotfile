@@ -1,6 +1,8 @@
 [manager]
 prepend_keymap = [
-	{ on = [ "g", "t", "y" ], run = 'cd ~/workData/obsidian/Data_Science/Review_and_Planner/Daily_Notes/', desc = "to obsidian daily note" },
-	{ on = [ "g", "m" ], run = 'cd ~/workData/obsidian/Data_Science/Projects/MSc Research project - Pathological Complete Response Prediction/', desc = "to MSc project" },
+	{ on = [ "g", "t" ], run = 'cd ~/workData/obsidian/Data_Science/Review_and_Planner/Daily_Notes/', desc = "to obsidian daily note" },
+	{ on = [ "g", "m" ], run = 'cd "~/workData/obsidian/Data_Science/Projects/MSc Research project - Pathological Complete Response Prediction/"', desc = "to MSc project" },
 	{ on = [ "g", "a" ], run = 'cd ~/workData/obsidian/Data_Science/certificate/AWS Solution Architect/', desc = "to AWS learning notes" },
+	{ on = [ "g", "c" ], run = 'cd ~/dotfiles/yazi/.config/yazi/', desc = "to yazi config" },
+	{ on = [ "g", "l" ], run = 'cd ~/workData/obsidian/Data_Science/Leetcode/', desc = "to Leetcode note" },
 ]
