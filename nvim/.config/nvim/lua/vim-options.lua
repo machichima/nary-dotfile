@@ -8,6 +8,7 @@ vim.opt.number = true
 vim.opt.hidden = true
 vim.opt.conceallevel = 1
 vim.opt.cursorline = true
+vim.opt.mouse = ""
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "<C-t>", ":tabs<CR>", {})
@@ -27,7 +28,7 @@ vim.keymap.set(
 )
 
 -- exit from terminal model to normal
-vim.api.nvim_set_keymap("t", "<ESC>", "<C-\\><C-n>", { noremap = true })
+vim.api.nvim_set_keymap("t", "<C-\\>", "<C-\\><C-n>", { noremap = true })
 
 -- resizes panes
 vim.keymap.set("n", "<C-right>", "<C-w>>")
@@ -78,3 +79,8 @@ function copyFileName()
 end
 
 vim.keymap.set("n", "<leader>pc", copyFileName, { noremap = true, silent = true })
+
+
+-- nevigate quick fix list
+vim.keymap.set("n", "<C-n>", ":cnext<CR>zz", { noremap = true, silent = true})
+vim.keymap.set("n", "<C-p>", ":cprev<CR>zz", { noremap = true, silent = true})
