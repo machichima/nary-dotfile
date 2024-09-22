@@ -1,2 +1,4 @@
 [2m2024-09-22T08:12:41.483075Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
 [2m2024-09-22T08:12:50.538756Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2024-09-22T09:57:01.825416Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m keybindings[24].commands: unrecognized subcommand
+ at line 208 column 15
