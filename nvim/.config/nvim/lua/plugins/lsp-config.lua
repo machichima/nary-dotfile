@@ -32,26 +32,29 @@ return {
 					})
 				end,
 
-        ["pylsp"] = function ()
+				["pylsp"] = function()
 					local lspconfig = require("lspconfig")
-          lspconfig.pylsp.setup({
-            settings = {
-              python = {
-                pythonPath = vim.fn.exepath("python3"),
-              },
-              pylsp = {
-                plugins = {
-                  pycodestyle = {
-                    ignore = {'E501'},
-                    maxLineLength = 160  -- Adjust this value as needed
-                  }
-                }
-              }, 
-            },
-            capabilities = capabilities,
-          })
-        end
-
+					lspconfig.pylsp.setup({
+						settings = {
+							python = {
+								pythonPath = vim.fn.exepath("python3"),
+							},
+							pylsp = {
+								plugins = {
+									pycodestyle = {
+										ignore = { "E501" },
+										maxLineLength = 160, -- Adjust this value as needed
+									},
+									pylsp_mypy = {
+										enabled = true,
+										live_mode = true,
+									},
+								},
+							},
+						},
+						capabilities = capabilities,
+					})
+				end,
 			}
 
 			mason_lsp.setup({
@@ -147,10 +150,17 @@ return {
 				filetypes = { "markdown", "quarto" },
 				settings = {
 					marksman = {
-						wiki = {
-							style = "file-stem",
+						completion = {
+							wiki = {
+								style = "file-stem",
+							},
 						},
 					},
+					-- marksman = {
+					-- 	wiki = {
+					-- 		style = "file-stem",
+					-- 	},
+					-- },
 				},
 			})
 
