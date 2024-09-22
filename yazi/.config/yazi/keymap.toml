@@ -5,4 +5,5 @@ prepend_keymap = [
 	{ on = [ "g", "a" ], run = 'cd ~/workData/obsidian/Data_Science/certificate/AWS Solution Architect/', desc = "to AWS learning notes" },
 	{ on = [ "g", "c" ], run = 'cd ~/dotfiles/yazi/.config/yazi/', desc = "to yazi config" },
 	{ on = [ "g", "l" ], run = 'cd ~/workData/obsidian/Data_Science/Leetcode/', desc = "to Leetcode note" },
+	{ on = [ "g", "w" ], run = 'cd ~/workData/obsidian/Data_Science/work/', desc = "to work note" },
 ]
