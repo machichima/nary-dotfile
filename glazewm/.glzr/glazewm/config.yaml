@@ -205,6 +205,8 @@ keybindings:
   # Terminal and Git Bash respectively.
   - commands: ['shell-exec wt']
     bindings: ['alt+enter']
+  - commands: ['shell-exec wsl']
+    bindings: ['alt+shift+enter']
   - commands: ['shell-exec brave']
     bindings: ['alt+w']
 
