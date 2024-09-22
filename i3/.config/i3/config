@@ -69,6 +69,8 @@ new_window pixel 3
 # Set inner/outer gaps
 gaps inner 6
 gaps outer 3
+# smart_gaps on
+smart_borders on
 
 # show window title bars (not officially supported with i3gaps)
 #default_border normal
