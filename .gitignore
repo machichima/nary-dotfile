@@ -1,2 +1,4 @@
 .bash_aliases
 .zsh_aliases
+
+tmux/.config/tmux/plugins/**
