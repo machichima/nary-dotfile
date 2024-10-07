@@ -1,0 +1,56 @@
+{
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "vscode-neovim.compositeKeys": {},
+    "workbench.colorTheme": "Catppuccin Macchiato",
+    "workbench.editorAssociations": {
+        "*.csv": "gc-excelviewer-csv-editor"
+    },
+    "python.venvFolders": [
+        "~/.cache/pypoetry/virtualenvs"
+    ],
+    "python.defaultInterpreterPath": "/home/nary/.cache/pypoetry/virtualenvs/ahead-med-3crJYmhD-py3.10",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        // movement
+        {
+            "before": [
+                "j"
+            ],
+            "after": [
+                "j",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "k"
+            ],
+            "after": [
+                "k",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.showDefinitionPreviewHover"
+            ]
+        },
+        {
+            "before": [
+                "z",
+                "z"
+            ],
+            "commands": [
+                "notebook.centerActiveCell"
+            ],
+        },
+    ],
+    "editor.fontFamily": "'ComicShannsMono Nerd Font', 'Droid Sans Mono', 'monospace', monospace",
+    "editor.codeLensFontFamily": "'ComicShannsMono Nerd Font', 'Droid Sans Mono', 'monospace', monospace"
+}

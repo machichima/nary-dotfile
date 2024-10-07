@@ -1,0 +1,166 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+shift+b",
+        "command": "vscode-neovim.ctrl-b",
+        "when": "editorTextFocus && neovim.ctrlKeysNormal.b && neovim.init && neovim.mode != 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "-vscode-neovim.ctrl-b",
+        "when": "editorTextFocus && neovim.ctrlKeysNormal.b && neovim.init && neovim.mode != 'insert' && editorLangId not in 'neovim.editorLangIdExclusions'"
+    },
+    {
+        "key": "ctrl+shift+j",
+        "command": "workbench.action.togglePanel"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "-workbench.action.togglePanel"
+    },
+    {
+        "key": "alt+m",
+        "command": "notebook.cell.insertMarkdownCellBelow"
+    },
+    {
+        "key": "alt+c",
+        "command": "notebook.cell.insertCodeCellBelowAndFocusContainer",
+        "when": "notebookEditorFocused && !inputFocus && !notebookOutputInputFocused"
+    },
+    {
+        "key": "b",
+        "command": "-notebook.cell.insertCodeCellBelowAndFocusContainer",
+        "when": "notebookEditorFocused && !inputFocus && !notebookOutputInputFocused"
+    },
+    {
+        "key": "shift+alt+m",
+        "command": "notebook.cell.insertMarkdownCellAbove"
+    },
+    {
+        "key": "shift+alt+c",
+        "command": "notebook.cell.insertCodeCellAboveAndFocusContainer",
+        "when": "notebookEditorFocused && !inputFocus && !notebookOutputInputFocused"
+    },
+    {
+        "key": "a",
+        "command": "-notebook.cell.insertCodeCellAboveAndFocusContainer",
+        "when": "notebookEditorFocused && !inputFocus && !notebookOutputInputFocused"
+    },
+    {
+        "key": "alt+up",
+        "command": "editor.action.moveLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+up",
+        "command": "-editor.action.moveLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+down",
+        "command": "editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+down",
+        "command": "-editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "editor.action.moveLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // for definition hover popup
+    {
+        "key": "ctrl+u",
+        "command": "editor.action.pageUpHover",
+        "when": "editorHoverFocused",
+    },
+    {
+        "key": "ctrl+d",
+        "command": "editor.action.pageDownHover",
+        "when": "editorHoverFocused",
+    },
+    {
+        "key": "k",
+        "command": "editor.action.scrollUpHover",
+        "when": "editorHoverFocused",
+    },
+    {
+        "key": "j",
+        "command": "editor.action.scrollDownHover",
+        "when": "editorHoverFocused",
+    }
+    {
+        "key": "q",
+        "command": "extension.vim_escape",
+        "when": "editorHoverFocused",
+    }
+    // file explorer
+    {
+        "key": "a",
+        "command": "explorer.newFile",
+        "when": "explorerViewletFocus",
+    }
+    // center jupyter notebook active cell
+    {
+        "key": "z",
+        "command": "notebook.centerActiveCell",
+        "when": "notebookEditorFocused && vim.mode == 'Normal'",
+    },
+    {
+        "key": "z",
+        "command": "-undo",
+        "when": "notebookEditorFocused && !inputFocus && !notebookOutputInputFocused"
+    },
+    // page down
+    {
+        "key": "pagedown",
+        "command": "-notebook.cell.cursorPageDown",
+        "when": "editorTextFocus && inputFocus && notebookEditorFocused"
+    },
+    // to cell output
+    {
+        "key": "ctrl+down",
+        "command": "notebook.cell.focusInOutput",
+        "when": "notebookCellHasOutputs && notebookEditorFocused"
+    },
+    // scroll up / down
+    {
+        "key": "j",
+        "command": "list.scrollDown",
+        "when": "!editorHoverFocused && listFocus && !inputFocus && !treestickyScrollFocused && listScrollAtBoundary != 'both' && listScrollAtBoundary != 'bottom'"
+    },
+    {
+        "key": "k",
+        "command": "list.scrollUp",
+        "when": "!editorHoverFocused && listFocus && !inputFocus && !treestickyScrollFocused && listScrollAtBoundary != 'both' && listScrollAtBoundary != 'bottom'"
+    },
+    // to next / prev cell and center
+    {
+        "key": "alt+j",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "notebook.focusNextEditor",
+                "notebook.centerActiveCell"
+            ]
+        }
+    },
+    {
+        "key": "alt+k",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "notebook.focusPreviousEditor",
+                "notebook.centerActiveCell"
+            ]
+        }
+    },
+]
