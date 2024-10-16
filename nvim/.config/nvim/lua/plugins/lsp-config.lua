@@ -78,6 +78,10 @@ return {
 
 			vim.g.autoformat = false
 
+			lspconfig.dartls.setup({
+				cmd = { "dart", "language-server", "--protocol=lsp" },
+			})
+
 			-- python
 			-- lspconfig.pylsp.setup({
 			--   settings = {
