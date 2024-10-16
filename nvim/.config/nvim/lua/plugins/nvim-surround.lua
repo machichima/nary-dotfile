@@ -26,6 +26,16 @@ return {
             return { { "<" }, { ">" } }
           end,
         },
+        ["="] = {
+          add = function()
+            return { { "==" }, { "==" } }
+          end,
+        },
+        ["*"] = {
+          add = function()
+            return { { "**" }, { "**" } }
+          end,
+        },
       },
     })
   end,
