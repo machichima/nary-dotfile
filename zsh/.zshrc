@@ -16,7 +16,7 @@ export GOPATH="$HOME/go"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-export PATH="$PATH:/home/nary/.local/bin:$GOPATH/bin"
+export PATH="$PATH:/home/nary/.local/bin:$GOPATH/bin:$HOME/workData/flutter/flutter/bin"
 
 
 export BROWSER='/usr/bin/brave' 
@@ -40,6 +40,16 @@ export XIM="fcitx"
 export XIM_PROGRAM="fcitx"
 export SDL_IM_MODULE="fcitx"
 export GLFW_IM_MODULE="ibus"
+
+
+# hot reload flutter
+function flutter-watch(){
+  tmux send-keys "flutter run $1 $2 $3 $4 --pid-file=/tmp/tf1.pid" Enter \;\
+  split-window -v \;\
+  send-keys 'npx -y nodemon -e dart -x "cat /tmp/tf1.pid | xargs kill -s USR1"' Enter \;\
+  resize-pane -y 5 -t 1 \;\
+  select-pane -t 0 \;
+}
 
 
 # Set name of the theme to load --- if set to "random", it will
