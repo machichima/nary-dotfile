@@ -17,7 +17,7 @@ return {
             -- open_mapping = [[<leader>/]],
             open_mapping = [[<c-\>]],
             insert_mappings = false,
-            terminal_mappings = true,
+            terminal_mappings = false,
         })
 
         local Terminal = require("toggleterm.terminal").Terminal
