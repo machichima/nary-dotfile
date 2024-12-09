@@ -436,7 +436,7 @@ exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set wallpaper
 # exec --no-startup-id sleep 2 && nitrogen --restore
-exec --no-startup-id sleep 1 && feh --bg-fill /home/nary/workData/wallpaper/20240414_182143.jpg
+exec --no-startup-id sleep 1 && feh --bg-fill /home/nary/workData/wallpaper/iceland.jpg
 #/usr/share/endeavouros/backgrounds/endeavouros-wallpaper.png
 
 # set powersavings for display:
