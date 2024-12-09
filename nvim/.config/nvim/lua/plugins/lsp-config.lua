@@ -38,19 +38,33 @@ return {
 						settings = {
 							python = {
 								pythonPath = vim.fn.exepath("python3"),
-							},
-							pylsp = {
-								plugins = {
-									pycodestyle = {
-										ignore = { "E501" },
-										maxLineLength = 160, -- Adjust this value as needed
-									},
-									pylsp_mypy = {
-										enabled = true,
-										live_mode = true,
-									},
+								analysis = {
+									autoSearchPaths = true,
+									useLibraryCodeForTypes = true,
+									diagnosticMode = "openFilesOnly",
 								},
 							},
+							-- pylsp = {
+							-- 	plugins = {
+							-- 		pylint = {
+							-- 			enabled = false,
+							-- 			ignore = { "E501" },
+							-- 			maxLineLength = 160, -- Adjust this value as needed
+							-- 		},
+							-- 		pyflakes = {
+							-- 			enabled = true,
+							-- 			ignore = { "E501" },
+							-- 			maxLineLength = 160, -- Adjust this value as needed
+							-- 		},
+							-- 		pylsp_mypy = { enabled = false },
+							-- 		pycodestyle = { enabled = false },
+							-- 		mccabe = { enabled = false },
+							-- 		-- pycodestyle = {
+							-- 		-- 	ignore = { "E501" },
+							-- 		-- 	maxLineLength = 160, -- Adjust this value as needed
+							-- 		-- },
+							-- 	},
+							-- },
 						},
 						capabilities = capabilities,
 					})
@@ -58,7 +72,7 @@ return {
 			}
 
 			mason_lsp.setup({
-				ensure_installed = { "lua_ls", "pylsp", "vimls" },
+				ensure_installed = { "lua_ls", "pyright", "vimls" },
 				handlers = handlers,
 			})
 		end,
@@ -77,6 +91,19 @@ return {
 			local lspconfig = require("lspconfig")
 
 			vim.g.autoformat = false
+
+			local lsp_attach = function(client, bufnr)
+				-- Create your keybindings here...
+			end
+
+			require("mason-lspconfig").setup_handlers({
+				function(server_name)
+					lspconfig[server_name].setup({
+						on_attach = lsp_attach,
+						capabilities = lsp_capabilities,
+					})
+				end,
+			})
 
 			lspconfig.dartls.setup({
 				cmd = { "dart", "language-server", "--protocol=lsp" },
@@ -193,6 +220,7 @@ return {
 				table.insert(lua_plugin_paths, resource_path .. "/lua-plugin/plugin.lua")
 			end
 
+
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
@@ -225,6 +253,25 @@ return {
 				update_in_insert = false,
 				severity_sort = true,
 			})
+
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+				max_width = 80, -- Limit the width of the popup
+				max_height = 10, -- Limit the height of the popup
+				focusable = false, -- Prevent focus on the popup
+				relative = "cursor", -- Position it relative to the cursor
+				row = 1, -- Position below the cursor
+				col = 0,
+			})
+			-- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+			-- 	border = "single", -- Add a border around the popup
+			-- 	max_width = 80, -- Limit the width of the popup
+			-- 	max_height = 10, -- Limit the height of the popup
+			-- 	focusable = false, -- Prevent focus on the popup
+			-- 	relative = "cursor", -- Position it relative to the cursor
+			-- 	row = 1, -- Position below the cursor
+			-- 	col = 0,
+			-- })
+
 		end,
 	},
 }
