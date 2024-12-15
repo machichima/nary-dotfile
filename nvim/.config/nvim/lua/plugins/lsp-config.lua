@@ -32,6 +32,24 @@ return {
 					})
 				end,
 
+				["pyright"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.pyright.setup({
+						settings = {
+							python = {
+								pythonPath = vim.fn.exepath("python3"),
+								analysis = {
+									autoSearchPaths = true,
+									useLibraryCodeForTypes = true,
+									diagnosticMode = "openFilesOnly",
+                                    typeCheckingMode = "off",
+								},
+							},
+						},
+						capabilities = capabilities,
+					})
+				end,
+
 				["pylsp"] = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.pylsp.setup({
