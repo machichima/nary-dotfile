@@ -8,7 +8,7 @@ vim.opt.number = true
 vim.opt.hidden = true
 vim.opt.conceallevel = 1
 vim.opt.cursorline = true
-vim.opt.mouse = ""
+-- vim.opt.mouse = ""
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "<C-t>", ":tabs<CR>", {})
