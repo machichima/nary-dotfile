@@ -208,7 +208,7 @@ bindsym $mod+Shift+e exec --no-startup-id ~/.config/polybar/forest/scripts/power
 # lock with a picture:
 #bindsym $mod+l exec --no-startup-id i3lock -i  ~/.config/i3/i3-lock-screen.png -p default|win -t
 # lock by blurring the screen:
-bindsym $mod+l exec --no-startup-id betterlockscreen -l
+bindsym $mod+Shift+l exec --no-startup-id betterlockscreen -l
 # ~/.config/i3/scripts/blur-lock
 
 # reload the configuration file
@@ -242,8 +242,8 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 5%-
 
 bindsym $mod+j focus down
 bindsym $mod+k focus up
-bindsym $mod+i focus right
-bindsym $mod+u focus left
+bindsym $mod+l focus right
+bindsym $mod+h focus left
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -264,10 +264,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
