@@ -12,6 +12,7 @@ return {
 			local widgets = require("dap.ui.widgets")
 
 			require("dap-python").setup()
+			require("dap-python").test_runner = "pytest"
 			table.insert(require("dap").configurations.python, {
 				justMyCode = false, -- <--- insert here
 				type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
@@ -43,6 +44,10 @@ return {
 			vim.keymap.set("n", "<F10>", dap.step_over, { desc = "dap step over" })
 			vim.keymap.set("n", "<F11>", dap.step_into, { desc = "dap step into" })
 			vim.keymap.set("n", "<F12>", dap.step_out, { desc = "dap step out" })
+
+			vim.keymap.set("n", "<leader>dt", function()
+				require("dap-python").test_method()
+			end, { desc = "debug python test" })
 
 			-- vim.keymap.set("n", "<Leader>dr", dap.repl.open, {})
 			-- vim.keymap.set("n", "<Leader>ds", function ()
