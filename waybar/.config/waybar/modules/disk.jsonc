@@ -1,0 +1,14 @@
+    "disk": {
+        "interval": 10,
+        "format": "󰋊 {free}",
+        "rotate": ${r_deg},
+        //"align": "left",
+        //"tooltip": true,
+        //"tooltip-text": "Free Space: {free} / Total: {total}",
+        "format-alt": "{icon0}{icon1}{icon2}{icon3}",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+        "path": "/",
+        "warn-threshold": 10,
+        "warn-format": "󰋊 {free} left - WARNING: Low Space!"
+    },
+
