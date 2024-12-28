@@ -1,4 +1,14 @@
+# if [ "$XDG_SESSION_DESKTOP" = "Hyprland" ]; then
+#     export XDG_CURRENT_DESKTOP=Hyprland
+# elif [ "$XDG_SESSION_DESKTOP" = "i3" ]; then
+#     export XDG_CURRENT_DESKTOP=i3
+# fi
+
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export GLFW_IM_MODULE=ibus
+
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
+export SSH_AUTH_SOCK
+
