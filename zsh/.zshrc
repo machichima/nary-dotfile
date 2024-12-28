@@ -8,15 +8,18 @@ fi
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
 export GOPATH="$HOME/go"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-export PATH="$PATH:/home/nary/.local/bin:$GOPATH/bin:$HOME/workData/flutter/flutter/bin"
+export PATH="/home/nary/.local/bin:$HOME/bin:$GOPATH/bin:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="$PATH:$HOME/bin"
 
 
 export BROWSER='/usr/bin/brave' 
