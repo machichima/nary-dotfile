@@ -1,0 +1,8 @@
+customCommands:
+  - key: "C"
+    command: "git czg --config=/home/nary/.config/.commitlintrc.json"
+    # use czg here: https://github.com/Zhengqbbb/cz-git
+    description: "commit with commitizen"
+    context: "files"
+    loadingText: "opening commitizen commit tool"
+    subprocess: true
