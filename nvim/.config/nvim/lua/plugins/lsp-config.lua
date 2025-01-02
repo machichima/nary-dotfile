@@ -265,7 +265,7 @@ return {
 
 			-- Disable showing visual text for diagnostic
 			vim.diagnostic.config({
-				virtual_text = false,
+				virtual_text = true,
 				signs = true,
 				underline = false,
 				update_in_insert = false,
