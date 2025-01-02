@@ -21,6 +21,21 @@ return {
 				program = "${file}",
 			})
 
+			table.insert(require("dap").configurations.python, {
+				justMyCode = false, -- <--- insert here
+				type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+				request = "launch",
+				name = "debug AHEAD ui",
+				program = "src/main.py",
+                cwd = vim.fn.getcwd(),
+                args = {
+                    "--ui"
+                },
+                env = {
+                    MAKELEVEL = "0",
+                },
+			})
+
 			dapui.setup()
 
 			dap.listeners.before.attach.dapui_config = function()
