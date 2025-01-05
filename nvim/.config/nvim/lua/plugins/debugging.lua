@@ -1,4 +1,74 @@
 return {
+
+	{
+		"rcarriga/nvim-dap-ui",
+		opts = {
+			layouts = {
+				{ -- 1
+					elements = {
+						{
+							id = "watches",
+							size = 1,
+						},
+					},
+					position = "left",
+					size = 40,
+				},
+				{ -- 2
+					elements = {
+						{
+							id = "stacks",
+							size = 1,
+						},
+					},
+					position = "left",
+					size = 40,
+				},
+				{ -- 3
+					elements = {
+						{
+							id = "scopes",
+							size = 1,
+						},
+					},
+					position = "left",
+					size = 40,
+				},
+				{ -- 4
+					elements = {
+						{
+							id = "repl",
+							size = 1,
+						},
+					},
+					position = "bottom",
+					size = 15,
+				},
+				{ -- 5
+					elements = {
+						{
+							id = "console",
+							size = 1,
+						},
+					},
+					position = "bottom",
+					size = 15,
+				},
+			},
+			mappings = {
+				edit = "e",
+				expand = { "<CR>", "<2-LeftMouse>" },
+				open = "o",
+				remove = "d",
+				repl = "r",
+				toggle = "t",
+			},
+			render = {
+				indent = 1,
+				max_value_lines = 100,
+			},
+		},
+	},
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
@@ -8,10 +78,16 @@ return {
 		},
 		config = function()
 			local dap = require("dap")
-			local dapui = require("dapui")
-			local widgets = require("dap.ui.widgets")
+			dap.defaults.fallback.external_terminal = {
+				command = "/usr/bin/kitty",
+				args = { "--hold", "-e" },
+			}
 
-			require("dap-python").setup()
+			local dapui = require("dapui")
+
+			-- require("dap-python").setup()
+			-- require("dap-python").setup("python3", { console = "externalTerminal" })
+			require("dap-python").setup("python3", { console = "internalConsole" })
 			require("dap-python").test_runner = "pytest"
 			table.insert(require("dap").configurations.python, {
 				justMyCode = false, -- <--- insert here
@@ -27,22 +103,20 @@ return {
 				request = "launch",
 				name = "debug AHEAD ui",
 				program = "src/main.py",
-                cwd = vim.fn.getcwd(),
-                args = {
-                    "--ui"
-                },
-                env = {
-                    MAKELEVEL = "0",
-                },
+				cwd = vim.fn.getcwd(),
+				args = {
+					"--ui",
+				},
+				env = {
+					MAKELEVEL = "0",
+				},
 			})
 
-			dapui.setup()
-
 			dap.listeners.before.attach.dapui_config = function()
-				dapui.open()
+				dapui.open({ layout = 4 }) -- open repl only
 			end
 			dap.listeners.before.launch.dapui_config = function()
-				dapui.open()
+				dapui.open({ layout = 4 })
 			end
 			dap.listeners.before.event_terminated.dapui_config = function()
 				dapui.close()
@@ -64,61 +138,59 @@ return {
 				require("dap-python").test_method()
 			end, { desc = "debug python test" })
 
-			-- vim.keymap.set("n", "<Leader>dr", dap.repl.open, {})
-			-- vim.keymap.set("n", "<Leader>ds", function ()
-			--              widgets.sidebar(widgets.scopes)
-			-- end, {})
-			-- vim.keymap.set("n", "<Leader>dw", function ()
-			--              widgets.sidebar(widgets.watches)
-			-- end, {})
-
 			vim.keymap.set("n", "<Leader>dl", dap.run_last, {})
+
+			-- dapui
+			local widgets = require("dap.ui.widgets")
+
+			vim.keymap.set("n", "<leader>dr", function()
+				dapui.toggle({ layout = 4 })
+			end, { desc = "Open DAP Repl" })
+
+			vim.keymap.set("n", "<leader>ds", function()
+				dapui.toggle({ layout = 3 })
+			end, { desc = "Open DAP Scope" })
+
+			vim.keymap.set("n", "<leader>df", function()
+				dapui.toggle({ layout = 2 })
+			end, { desc = "Open DAP Frame (Stacks)" })
+
+			vim.keymap.set("n", "<leader>dh", widgets.hover, { desc = "DAP eval" })
+
 			vim.keymap.set("n", "<Leader>du", dapui.toggle, { desc = "Toggle debug ui" })
-			vim.keymap.set({ "n", "v" }, "<Leader>dh", require("dap.ui.widgets").hover, {})
-			-- vim.keymap.set({ "n", "v" }, "<Leader>dp", require("dap.ui.widgets").preview, {})
 
 			vim.keymap.set("n", "<Leader>dp", function()
 				dapui.float_element("breakpoints", { enter = true })
 			end, { desc = "Toggle debug ui breakpoints" })
 
-			vim.keymap.set("n", "<Leader>dr", function()
+			vim.keymap.set("n", "<Leader>dR", function()
 				dapui.float_element(
 					"repl",
 					{ width = vim.o.columns - 10, height = vim.o.lines - 10, enter = true, position = "center" }
 				)
-			end, { desc = "Toggle debug ui repl" })
+			end, { desc = "Toggle float debug ui repl" })
 
-			vim.keymap.set("n", "<Leader>ds", function()
+			vim.keymap.set("n", "<Leader>dS", function()
 				dapui.float_element(
 					"scopes",
 					{ width = vim.o.columns - 10, height = vim.o.lines - 10, enter = true, position = "center" }
 				)
-			end, { desc = "Toggle debug ui scopes" })
+			end, { desc = "Toggle float debug ui scopes" })
 
-			vim.keymap.set("n", "<Leader>dw", function()
+			vim.keymap.set("n", "<Leader>dW", function()
 				dapui.float_element(
 					"watches",
 					{ width = vim.o.columns - 10, height = vim.o.lines - 10, enter = true, position = "center" }
 				)
-			end, { desc = "Toggle debug ui watches" })
+			end, { desc = "Toggle float debug ui watches" })
 
-			vim.keymap.set("n", "<Leader>cc", function()
+			vim.keymap.set("n", "<Leader>dC", function()
 				dapui.float_element(
 					"console",
 					{ width = vim.o.columns - 10, height = vim.o.lines - 10, enter = true, position = "center" }
 				)
-			end, { desc = "Toggle debug ui watches" })
+			end, { desc = "Toggle float debug ui console" })
 
-			vim.keymap.set("n", "<Leader>dc", function()
-				vim.keymap.set("n", "<leader>dc", function()
-					dapui.toggle({ layout = 2 })
-				end, { desc = "Open DAP Console" })
-			end, {})
-
-			vim.keymap.set("n", "<Leader>df", function()
-				local widgets = require("dap.ui.widgets")
-				widgets.centered_float(widgets.frames)
-			end, {})
 
 			local types_enabled = true
 			local toggle_types = function()
