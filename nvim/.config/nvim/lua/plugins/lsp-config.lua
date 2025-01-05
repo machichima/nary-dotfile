@@ -161,13 +161,13 @@ return {
 			lspconfig.ltex.setup({
 				filetypes = { "markdown" },
 				flags = { debounce_text_changes = 300 },
-				on_attach = function(client, bufnr)
-					require("ltex_extra").setup({
-						load_langs = { "en-GB" },
-						path = "~/.config/nvim/spell/en-GB",
-						-- path = vim.fn.expand('~') .. '/.local/share/ltex',
-					})
-				end,
+				-- on_attach = function(client, bufnr)
+				-- 	require("ltex_extra").setup({
+				-- 		load_langs = { "en-GB" },
+				-- 		path = "~/.config/nvim/spell/en-GB",
+				-- 		-- path = vim.fn.expand('~') .. '/.local/share/ltex',
+				-- 	})
+				-- end,
 				settings = {
 					ltex = {
 						completionEnabled = true,
