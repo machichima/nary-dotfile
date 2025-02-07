@@ -4,7 +4,7 @@ vim.cmd("set softtabstop=4")
 vim.cmd("set shiftwidth=4")
 vim.opt.linebreak = true
 vim.opt.number = true
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 vim.opt.hidden = true
 vim.opt.conceallevel = 1
 vim.opt.cursorline = true
@@ -84,3 +84,8 @@ vim.keymap.set("n", "<leader>pc", copyFileName, { noremap = true, silent = true 
 -- nevigate quick fix list
 vim.keymap.set("n", "<C-n>", ":cnext<CR>zz", { noremap = true, silent = true})
 vim.keymap.set("n", "<C-p>", ":cprev<CR>zz", { noremap = true, silent = true})
+
+-- relative line number not in insert mode
+vim.api.nvim_create_autocmd("InsertEnter", { command = [[set norelativenumber]] })
+vim.api.nvim_create_autocmd("InsertLeave", { command = [[set relativenumber]] })
+
