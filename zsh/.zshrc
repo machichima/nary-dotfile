@@ -30,6 +30,11 @@ export XDG_CONFIG_HOME=$HOME/.config
 
 eval $(thefuck --alias fuck)
 
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^v" edit-command-line
+
+
 # input method
 # cn
 export LANG="zh-CN.UTF-8" 
