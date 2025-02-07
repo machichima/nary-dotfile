@@ -1,74 +1,13 @@
 return {
 
     {
-        "rcarriga/nvim-dap-ui",
-        opts = {
-            layouts = {
-                { -- 1
-                    elements = {
-                        {
-                            id = "watches",
-                            size = 1,
-                        },
-                    },
-                    position = "left",
-                    size = 40,
-                },
-                { -- 2
-                    elements = {
-                        {
-                            id = "stacks",
-                            size = 1,
-                        },
-                    },
-                    position = "left",
-                    size = 40,
-                },
-                { -- 3
-                    elements = {
-                        {
-                            id = "scopes",
-                            size = 1,
-                        },
-                    },
-                    position = "left",
-                    size = 40,
-                },
-                { -- 4
-                    elements = {
-                        {
-                            id = "repl",
-                            size = 1,
-                        },
-                    },
-                    position = "bottom",
-                    size = 15,
-                },
-                { -- 5
-                    elements = {
-                        {
-                            id = "console",
-                            size = 1,
-                        },
-                    },
-                    position = "bottom",
-                    size = 15,
-                },
-            },
-            mappings = {
-                edit = "e",
-                expand = { "<CR>", "<2-LeftMouse>" },
-                open = "o",
-                remove = "d",
-                repl = "r",
-                toggle = "t",
-            },
-            render = {
-                indent = 1,
-                max_value_lines = 100,
-            },
-        },
+        "daic0r/dap-helper.nvim",
+        dependencies = { "rcarriga/nvim-dap-ui", "mfussenegger/nvim-dap" },
+        config = function()
+            require("dap-helper").setup()
+        end,
     },
+
     {
         "mfussenegger/nvim-dap",
         dependencies = {
@@ -135,7 +74,7 @@ return {
             vim.keymap.set("n", "<F12>", dap.step_out, { desc = "dap step out" })
 
             vim.keymap.set("n", "<leader>dt", function()
-                require("dap-python").test_method({ console = "internalConsole" })
+                require("dap-python").test_method({ console = "internalConsole", config={justMyCode = false} })
             end, { desc = "debug python test" })
 
             vim.keymap.set("n", "<Leader>dl", dap.run_last, {})
@@ -357,5 +296,75 @@ return {
                 { text = "", texthl = "DapStopped", linehl = "DapStoppedLine", numhl = "DapStopped" }
             )
         end,
+    },
+
+    {
+        "rcarriga/nvim-dap-ui",
+        opts = {
+            layouts = {
+                { -- 1
+                    elements = {
+                        {
+                            id = "watches",
+                            size = 1,
+                        },
+                    },
+                    position = "left",
+                    size = 40,
+                },
+                { -- 2
+                    elements = {
+                        {
+                            id = "stacks",
+                            size = 1,
+                        },
+                    },
+                    position = "left",
+                    size = 40,
+                },
+                { -- 3
+                    elements = {
+                        {
+                            id = "scopes",
+                            size = 1,
+                        },
+                    },
+                    position = "left",
+                    size = 40,
+                },
+                { -- 4
+                    elements = {
+                        {
+                            id = "repl",
+                            size = 1,
+                        },
+                    },
+                    position = "bottom",
+                    size = 15,
+                },
+                { -- 5
+                    elements = {
+                        {
+                            id = "console",
+                            size = 1,
+                        },
+                    },
+                    position = "bottom",
+                    size = 15,
+                },
+            },
+            mappings = {
+                edit = "e",
+                expand = { "<CR>", "<2-LeftMouse>" },
+                open = "o",
+                remove = "d",
+                repl = "r",
+                toggle = "t",
+            },
+            render = {
+                indent = 1,
+                max_value_lines = 100,
+            },
+        },
     },
 }
