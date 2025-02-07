@@ -5,6 +5,10 @@ local opts = {
 			name = "ds",
 			path = "~/workData/obsidian/Data_Science",
 		},
+		{
+			name = "ahead",
+			path = "~/workData/ahead_med/projects/nary-notes",
+		},
 	},
 	log_level = vim.log.levels.INFO,
 
@@ -35,7 +39,7 @@ local opts = {
 	-- way then set 'mappings = {}'.
 	mappings = {
 		-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-		["gf"] = {
+		["gl"] = {
 			action = function()
 				return require("obsidian").util.gf_passthrough()
 			end,
@@ -160,13 +164,13 @@ return {
 			})
 		end
 
-		vim.api.nvim_set_keymap(
-			"n",
-			"gl",
-			"<cmd>lua _TELESCOPE_FIND()<CR>",
-			-- Telescope find_files search_dirs=require('obsidian').get_client().dir<CR>",
-			{ noremap = true, silent = true }
-		)
+		-- vim.api.nvim_set_keymap(
+		-- 	"n",
+		-- 	"gl",
+		-- 	"<cmd>lua _TELESCOPE_FIND()<CR>",
+		-- 	-- Telescope find_files search_dirs=require('obsidian').get_client().dir<CR>",
+		-- 	{ noremap = true, silent = true }
+		-- )
 
 		vim.keymap.set("n", "<leader>si", paste_image, { noremap = true, silent = true, desc = "Obsidian Paste Image" })
 		vim.keymap.set("n", "<leader>se", ":ObsidianTemplate<CR>", { noremap = true, silent = true })
