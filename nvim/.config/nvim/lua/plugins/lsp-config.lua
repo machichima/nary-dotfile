@@ -44,12 +44,41 @@ return {
 								pythonPath = vim.fn.exepath("python3"),
 								analysis = {
 									ignore = { "*" },
-                                    diagnosticMode = "off",
+									diagnosticMode = "off",
 									-- autoSearchPaths = true,
 									-- useLibraryCodeForTypes = true,
 									-- diagnosticMode = "openFilesOnly",
 									typeCheckingMode = "off",
 								},
+							},
+						},
+						capabilities = capabilities,
+					})
+				end,
+
+				["basedpyright"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.basedpyright.setup({
+						settings = {
+							basedpyright = {
+                                analysis = {
+                                    -- typeCheckingMode = "off",
+                                    diagnosticSeverityOverrides = {
+                                        reportUndefinedVariable = true,
+                                        reportUnusedVariable = false,
+                                        reportAssignmentType = false,
+                                        reportUnknownMemberType = false,
+                                        reportExplicitAny = false,
+                                        reportUnknownVariableType = false,
+                                    }
+                                }
+								-- ignore = { "*" },
+							},
+							python = {
+								-- pythonPath = vim.fn.exepath("python3"),
+								-- analysis = {
+								-- 	ignore = { "*" },
+								--                         }
 							},
 						},
 						capabilities = capabilities,
@@ -81,6 +110,12 @@ return {
 							},
 						},
 						capabilities = capabilities,
+						-- root_dir = lspconfig.util.root_pattern("pyproject.toml", ".git") or vim.fn.getcwd(),
+						root_dir = function(fname)
+							return lspconfig.util.find_git_ancestor(fname)
+								or lspconfig.util.root_pattern("pyproject.toml")(fname)
+								or vim.fn.getcwd()
+						end,
 					})
 				end,
 
@@ -91,40 +126,51 @@ return {
 							python = {
 								pythonPath = vim.fn.exepath("python3"),
 								analysis = {
-									autoSearchPaths = true,
-									useLibraryCodeForTypes = true,
-									diagnosticMode = "openFilesOnly",
+									ignore = { "*" },
+									diagnosticMode = "off",
+									-- autoSearchPaths = true,
+									-- useLibraryCodeForTypes = true,
+									-- diagnosticMode = "openFilesOnly",
+									typeCheckingMode = "off",
+									-- autoSearchPaths = true,
+									-- useLibraryCodeForTypes = true,
+									-- diagnosticMode = "openFilesOnly",
 								},
 							},
-							-- pylsp = {
-							-- 	plugins = {
-							-- 		pylint = {
-							-- 			enabled = false,
-							-- 			ignore = { "E501" },
-							-- 			maxLineLength = 160, -- Adjust this value as needed
-							-- 		},
-							-- 		pyflakes = {
-							-- 			enabled = true,
-							-- 			ignore = { "E501" },
-							-- 			maxLineLength = 160, -- Adjust this value as needed
-							-- 		},
-							-- 		pylsp_mypy = { enabled = false },
-							-- 		pycodestyle = { enabled = false },
-							-- 		mccabe = { enabled = false },
-							-- 		-- pycodestyle = {
-							-- 		-- 	ignore = { "E501" },
-							-- 		-- 	maxLineLength = 160, -- Adjust this value as needed
-							-- 		-- },
-							-- 	},
-							-- },
+							pylsp = {
+								-- Using Ruff's import organizer
+								disableOrganizeImports = true,
+								plugins = {
+									pylint = {
+										enabled = false,
+										ignore = { "E501" },
+										maxLineLength = 160, -- Adjust this value as needed
+									},
+									pyflakes = {
+										enabled = true,
+										ignore = { "E501" },
+										maxLineLength = 160, -- Adjust this value as needed
+									},
+									pylsp_mypy = { enabled = false },
+									pycodestyle = { enabled = false },
+									mccabe = { enabled = false },
+									-- pycodestyle = {
+									-- 	ignore = { "E501" },
+									-- 	maxLineLength = 160, -- Adjust this value as needed
+									-- },
+								},
+							},
 						},
 						capabilities = capabilities,
 					})
 				end,
 			}
 
+            -- NOTE: 
+            --   basedpyright: autoimport and reportUndefinedVariable check
+            --   ruff: static check (all others)
 			mason_lsp.setup({
-				ensure_installed = { "lua_ls", "pyright", "vimls" },
+				ensure_installed = { "lua_ls", "basedpyright", "vimls" },
 				handlers = handlers,
 			})
 		end,
