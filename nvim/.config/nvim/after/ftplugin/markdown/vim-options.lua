@@ -18,3 +18,12 @@ vim.cmd([[
   syntax region HighlightBold start=/\*\*/ end=/\*\*/
   highlight HighlightBold guifg=blue ctermfg=blue
 ]])
+
+
+vim.diagnostic.config({
+    virtual_text = false,
+    signs = true,
+    underline = false,
+    update_in_insert = false,
+    severity_sort = true,
+})
