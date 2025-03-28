@@ -211,7 +211,7 @@ return {
                         args = {
                             "start",
                             "--config",
-                            "flyte-single-binary-local.yaml",
+                            vim.fs.joinpath(vim.fn.getcwd(), "flyte-single-binary-local.yaml")
                         },
                         env = {
                             POD_NAMESPACE = "flyte",
