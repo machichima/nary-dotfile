@@ -7,6 +7,18 @@ return {
     --         require("dap-helper").setup()
     --     end,
     -- },
+    {
+        'Weissle/persistent-breakpoints.nvim',
+        config = function()
+            require('persistent-breakpoints').setup {
+                load_breakpoints_event = { "BufReadPost" }
+            }
+            vim.keymap.set("n", "<Leader>db", "<cmd>lua require('persistent-breakpoints.api').toggle_breakpoint()<cr>")
+            vim.keymap.set("n", "<Leader>dc",
+                "<cmd>lua require('persistent-breakpoints.api').set_conditional_breakpoint()<cr>")
+            vim.keymap.set("n", "<Leader>dl", "<cmd>lua require('persistent-breakpoints.api').set_log_point()<cr>")
+        end
+    },
 
     {
         "mfussenegger/nvim-dap",
@@ -30,7 +42,7 @@ return {
             require("dap-python").test_runner = "pytest"
             table.insert(require("dap").configurations.python, {
                 justMyCode = false, -- <--- insert here
-                type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+                type = "python",    -- the type here established the link to the adapter definition: `dap.adapters.python`
                 request = "launch",
                 name = "debug source code",
                 program = "${file}",
@@ -38,7 +50,7 @@ return {
 
             table.insert(require("dap").configurations.python, {
                 justMyCode = false, -- <--- insert here
-                type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+                type = "python",    -- the type here established the link to the adapter definition: `dap.adapters.python`
                 request = "launch",
                 name = "debug AHEAD ui",
                 program = "src/main.py",
@@ -64,10 +76,11 @@ return {
                 dapui.close()
             end
 
-            vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, {})
-            vim.keymap.set("n", "<Leader>dc", function ()
-                dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-            end, {})
+            -- NOTE: this is set above
+            -- vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, {})
+            -- vim.keymap.set("n", "<Leader>dc", function()
+            --     dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+            -- end, {})
             -- vim.keymap.set("n", "<Leader>dc", dap.continue, {})
 
             vim.keymap.set("n", "<F5>", dap.continue, { desc = "dap start debugging or continue" })
@@ -201,17 +214,62 @@ return {
 
             vim.keymap.set("n", "<leader>cf", get_current_function_name, { desc = "test capture function" })
 
+            local function get_build_info()
+                local handle = io.popen("date '+%F %T'")
+                local build_time = handle:read("*a"):gsub("\n", ""):gsub(" ", "\\ ") -- Escape spaces
+                handle:close()
+
+                handle = io.popen("git rev-parse HEAD")
+                local commit_sha1 = handle:read("*a"):gsub("\n", "")
+                handle:close()
+
+                return build_time, commit_sha1
+            end
+
+            local BUILD_TIME, COMMIT_SHA1 = get_build_info()
+
             dap_go.setup({
                 dap_configurations = {
                     {
                         type = "go",
+                        name = "Debug (KubeRay operator)",
+                        request = "launch",
+                        -- program = vim.fn.getcwd() .. "/bin/manager",
+                        program = vim.fn.getcwd() .. "/" .. "main.go",
+                        args = {
+                            "-leader-election-namespace",
+                            "default",
+                            "-use-kubernetes-proxy",
+                        },
+                        -- buildFlags = "-ldflags " ..
+                        --     "-X \"main._buildTime_=" .. BUILD_TIME .. "\" " ..
+                        --     "-X \"main._commitId_=" .. COMMIT_SHA1 .. "\"",
+                        cwd = vim.fn.getcwd(),
+                        -- The -o bin/manager should be outside buildFlags, added here to ensure proper placement
+                        -- buildCommand = "go build -o bin/manager main.go",
+                    },
+                    {
+                        -- 	go run -race cmd/main.go -localSwaggerPath ${REPO_ROOT}/proto/swagger
+                        -- 	NOTE: run from apiserver/
+                        type = "go",
+                        name = "Debug (KubeRay apiserver)",
+                        request = "launch",
+                        program = vim.fn.getcwd() .. "/" .. "cmd/main.go",
+                        args = {
+                            "-localSwaggerPath",
+                            vim.fn.getcwd() .. "/proto/swagger"
+                        },
+                        cwd = vim.fn.getcwd(),
+                    },
+                    {
+                        type = "go",
                         name = "Debug (Flyte default config)",
                         request = "launch",
-                        program = vim.fs.joinpath(vim.fn.getcwd(), "cmd"),
+                        program = vim.fn.getcwd() .. "/" .. "cmd",
                         args = {
                             "start",
                             "--config",
-                            vim.fs.joinpath(vim.fn.getcwd(), "flyte-single-binary-local.yaml")
+                            vim.fn.getcwd() .. "/" .. "flyte-single-binary-local.yaml",
                         },
                         env = {
                             POD_NAMESPACE = "flyte",
@@ -219,54 +277,54 @@ return {
                         buildFlags = "-tags console -v",
                         cwd = vim.fn.getcwd(),
                     },
-                    {
-                        type = "go",
-                        name = "Debug (Flyte Spark config)",
-                        request = "launch",
-                        program = vim.fs.joinpath(vim.fn.getcwd(), "cmd"),
-                        args = {
-                            "start",
-                            "--config",
-                            vim.fs.joinpath(vim.fn.getcwd(), "../spark-values-override.yaml"),
-                        },
-                        env = {
-                            POD_NAMESPACE = "flyte",
-                        },
-                        buildFlags = "-tags console -v",
-                        cwd = vim.fn.getcwd(),
-                    },
-                    {
-                        type = "go",
-                        name = "Debug (update workflow-execution-config)",
-                        request = "launch",
-                        mode = "debug",                      -- Use `debug` mode to run `go run` with debugging
-                        program = vim.fs.joinpath(vim.fn.getcwd(), "main.go"), -- Use the directory of the current file (main.go)
-                        args = {
-                            "update",
-                            "workflow-execution-config",
-                            "--attrFile",
-                            "../build/wec.yaml",
-                        },
-                        cwd = vim.fn.getcwd(), -- Use the current working directory
-                        buildFlags = "", -- Add build flags if needed
-                    },
-                    {
-                        type = "go",
-                        name = "Debug (Flytectl input args)",
-                        request = "launch",
-                        mode = "debug",                      -- Use `debug` mode to run `go run` with debugging
-                        program = vim.fs.joinpath(vim.fn.getcwd(), "main.go"), -- Use the directory of the current file (main.go)
-                        args = function()
-                            local args_input = vim.fn.input("Enter arguments (separated by spaces): ")
-                            local args = {}
-                            for arg in string.gmatch(args_input, "%S+") do
-                                table.insert(args, arg)
-                            end
-                            return args
-                        end,
-                        cwd = vim.fn.getcwd(), -- Use the current working directory
-                        buildFlags = "", -- Add build flags if needed
-                    },
+                    -- {
+                    --     type = "go",
+                    --     name = "Debug (Flyte Spark config)",
+                    --     request = "launch",
+                    --     program = vim.fn.getcwd() .. "/" .. "cmd",
+                    --     args = {
+                    --         "start",
+                    --         "--config",
+                    --         vim.fn.getcwd() .. "/" .. "../spark-values-override.yaml",
+                    --     },
+                    --     env = {
+                    --         POD_NAMESPACE = "flyte",
+                    --     },
+                    --     buildFlags = "-tags console -v",
+                    --     cwd = vim.fn.getcwd(),
+                    -- },
+                    -- {
+                    --     type = "go",
+                    --     name = "Debug (update workflow-execution-config)",
+                    --     request = "launch",
+                    --     mode = "debug",                      -- Use `debug` mode to run `go run` with debugging
+                    --     program = vim.fn.getcwd() .. "/" .. "main.go",
+                    --     args = {
+                    --         "update",
+                    --         "workflow-execution-config",
+                    --         "--attrFile",
+                    --         "../build/wec.yaml",
+                    --     },
+                    --     cwd = vim.fn.getcwd(), -- Use the current working directory
+                    --     buildFlags = "", -- Add build flags if needed
+                    -- },
+                    -- {
+                    --     type = "go",
+                    --     name = "Debug (Flytectl input args)",
+                    --     request = "launch",
+                    --     mode = "debug",                      -- Use `debug` mode to run `go run` with debugging
+                    --     program = vim.fn.getcwd() .. "/" .. "main.go",
+                    --     args = function()
+                    --         local args_input = vim.fn.input("Enter arguments (separated by spaces): ")
+                    --         local args = {}
+                    --         for arg in string.gmatch(args_input, "%S+") do
+                    --             table.insert(args, arg)
+                    --         end
+                    --         return args
+                    --     end,
+                    --     cwd = vim.fn.getcwd(), -- Use the current working directory
+                    --     buildFlags = "", -- Add build flags if needed
+                    -- },
                     -- {
                     --     type = "go",
                     --     name = "Debug (Flytectl)",
@@ -327,11 +385,11 @@ return {
 
             vim.fn.sign_define(
                 "DapBreakpoint",
-                { text = "", texthl = "DapBreakpoint", linehl = "DapBreakpointLine", numhl = "DapBreakpoint" }
+                { text = "🔴", texthl = "DapBreakpoint", linehl = "DapBreakpointLine", numhl = "DapBreakpoint" }
             )
             vim.fn.sign_define(
                 "DapBreakpointCondition",
-                { text = "ﳁ", texthl = "DapBreakpoint", linehl = "DapBreakpointLine", numhl = "DapBreakpoint" }
+                { text = "⭕", texthl = "DapBreakpoint", linehl = "DapBreakpointLine", numhl = "DapBreakpoint" }
             )
             vim.fn.sign_define(
                 "DapBreakpointRejected",
