@@ -14,7 +14,7 @@ return {
             --   basedpyright: autoimport and reportUndefinedVariable check
             --   ruff: static check (all others)
             mason_lsp.setup({
-                ensure_installed = { "lua_ls", "basedpyright", "vimls" },
+                ensure_installed = { "lua_ls", "basedpyright", "vimls", "gopls" },
             })
 
             mason_lsp.setup_handlers {
@@ -64,6 +64,7 @@ return {
                             basedpyright = {
                                 analysis = {
                                     -- typeCheckingMode = "off",
+                                    ignore = { "*" },
                                     diagnosticSeverityOverrides = {
                                         reportUndefinedVariable = true,
                                         reportUnusedVariable = false,
@@ -170,6 +171,20 @@ return {
                     })
                 end,
 
+                ["clangd"] = function()
+                    local lspconfig = require("lspconfig")
+
+                    lspconfig.clangd.setup {
+                        cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.getcwd() }, -- Ensure it points to your project with compile_commands.json
+                        filetypes = { "c", "cpp", "objc", "objcpp" },
+                        settings = {
+                            clangd = {
+                                -- You can add more clangd options here as needed
+                            }
+                        }
+                    }
+                end,
+
                 -- and will be called for each installed server that doesn't have
                 -- The first entry (without a key) will be the default handler
                 -- a dedicated handler.
@@ -177,7 +192,6 @@ return {
                     require("lspconfig")[server_name].setup({})
                 end,
             }
-
         end,
     },
     {
@@ -358,11 +372,11 @@ return {
             })
 
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-                max_width = 80, -- Limit the width of the popup
-                max_height = 10, -- Limit the height of the popup
-                focusable = false, -- Prevent focus on the popup
+                max_width = 80,      -- Limit the width of the popup
+                max_height = 10,     -- Limit the height of the popup
+                focusable = false,   -- Prevent focus on the popup
                 relative = "cursor", -- Position it relative to the cursor
-                row = 1, -- Position below the cursor
+                row = 1,             -- Position below the cursor
                 col = 0,
             })
             -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
