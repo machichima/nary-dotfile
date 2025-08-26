@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 prepend_keymap = [
 	{ on = [ "g", "t" ], run = 'cd ~/workData/obsidian/Data_Science/Review_and_Planner/Daily_Notes/', desc = "to obsidian daily note" },
 	{ on = [ "g", "m" ], run = 'cd "~/workData/obsidian/Data_Science/Projects/MSc Research project - Pathological Complete Response Prediction/"', desc = "to MSc project" },
