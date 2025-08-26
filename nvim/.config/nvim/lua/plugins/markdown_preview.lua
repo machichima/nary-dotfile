@@ -15,7 +15,7 @@ return {
 
 				update_on_change = true,
 
-				app = { 'brave', '--new-window' }, -- 'webview', 'browser', string or a table of strings
+				app = { 'firefox', '--new-window' }, -- 'webview', 'browser', string or a table of strings
 				-- explained below
 
 				filetype = { "markdown" }, -- list of filetypes to recognize as markdown
