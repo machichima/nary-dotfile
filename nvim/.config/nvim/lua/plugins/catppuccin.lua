@@ -4,7 +4,7 @@ return {
 	priority = 1000,
 	config = function()
 		require("catppuccin").setup({
-			flavour = "mocha",
+			flavour = "macchiato",
 		})
 		vim.cmd.colorscheme("catppuccin")
 		-- Sets colors to line numbers Above, Current and Below  in this order
