@@ -78,7 +78,14 @@ function copyFileName()
     vim.fn.setreg("+", filepath) -- writvim-options.luae to clippoard
 end
 
-vim.keymap.set("n", "<leader>pc", copyFileName, { noremap = true, silent = true })
+-- copy file path relative to workspace
+function copyRelativeFilePath()
+    local filepath = vim.fn.expand("%:.")
+    vim.fn.setreg("+", filepath)
+end
+
+vim.keymap.set("n", "<leader>pc", copyFileName, { noremap = true, silent = true, desc = "Copy filename" })
+vim.keymap.set("n", "<leader>pr", copyRelativeFilePath, { noremap = true, silent = true, desc = "Copy relative file path" })
 
 
 -- nevigate quick fix list
