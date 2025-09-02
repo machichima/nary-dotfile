@@ -31,3 +31,7 @@ i3-msg restart
 ```{sh}
 du -hs $(ls -A) | sort -rh | head -10
 ```
+
+## zsh theme
+
+- powerlevel10k: https://github.com/romkatv/powerlevel10k
