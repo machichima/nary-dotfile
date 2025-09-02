@@ -5,10 +5,6 @@ local opts = {
 			name = "ds",
 			path = "~/workData/obsidian/Data_Science",
 		},
-		{
-			name = "ahead",
-			path = "~/workData/ahead_med/projects/nary-notes",
-		},
 	},
 	log_level = vim.log.levels.INFO,
 
