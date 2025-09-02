@@ -1,6 +1,11 @@
-# change window focus within space
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
+# switch layout to stack
+alt - s : yabai -m space --layout stack
+# switch layout to bsp
+alt - e : yabai -m space --layout bsp
+
+# change window focus within space (works for both bsp and stack layouts)
+alt - j : yabai -m window --focus south || yabai -m window --focus stack.next
+alt - k : yabai -m window --focus north || yabai -m window --focus stack.prev
 alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
 
