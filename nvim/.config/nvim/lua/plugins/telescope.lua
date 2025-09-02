@@ -15,16 +15,19 @@ return {
 
             telescope.setup({
                 defaults = {
+                    layout_strategy = "horizontal",
                     layout_config = {
                         width = { padding = 0 },
                         height = { padding = 0 },
-                        -- other layout configuration here
                     },
-                    -- mappings = {
-                    --     i = {
-                    --         ["<C-f>"] = require("telescope.actions").to_fuzzy_refine,
-                    --     },
-                    -- },
+                    mappings = {
+                        i = {
+                            ["<c-d>"] = action.delete_buffer,
+                        },
+                        n = {
+                            ["<c-d>"] = action.delete_buffer,
+                        },
+                    },
                     -- other defaults configuration here
                 },
                 extensions = {
@@ -99,19 +102,7 @@ return {
             vim.keymap.set("n", "<leader>b", builtin.buffers, {})
 
 
-            -- action
-            require("telescope").setup({
-                defaults = {
-                    mappings = {
-                        i = {
-                            ["<c-d>"] = action.delete_buffer,
-                        },
-                        n = {
-                            ["<c-d>"] = action.delete_buffer,
-                        },
-                    },
-                },
-            })
+            -- action mappings moved to main setup above
 
             -- load extensions
             telescope.load_extension("live_grep_args")
