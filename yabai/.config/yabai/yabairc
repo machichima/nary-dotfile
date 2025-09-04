@@ -1,5 +1,13 @@
+yabai -m config external_bar all:$(sketchybar --query bar | jq .height):0
+
 # default layout (can be bsp, stack or float)
 yabai -m config layout bsp
+
+# configure per-monitor workspaces
+yabai -m config focus_follows_mouse on
+yabai -m config mouse_follows_focus off
+yabai -m config window_origin_display focused
+yabai -m config window_placement_origin focused
 
 # New window spawns to the right if vertical split, or bottom if horizontal split
 yabai -m config window_placement second_child
@@ -10,9 +18,6 @@ yabai -m config bottom_padding 5
 yabai -m config left_padding 5
 yabai -m config right_padding 5
 yabai -m config window_gap 5
-
-# center mouse on window with focus
-yabai -m config mouse_follows_focus on
 
 # modifier for clicking and dragging with mouse
 yabai -m config mouse_modifier alt

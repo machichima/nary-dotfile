@@ -9,9 +9,11 @@ alt - k : yabai -m window --focus north || yabai -m window --focus stack.prev
 alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
 
-#change focus between external displays (left and right)
-alt - s: yabai -m display --focus west
-alt - g: yabai -m display --focus east
+# Monitor switching (alt + cmd)
+alt + cmd - h : yabai -m display --focus west
+alt + cmd - l : yabai -m display --focus east
+alt + cmd - p : yabai -m display --focus prev
+alt + cmd - n : yabai -m display --focus next
 
 # Modify the layout
 # rotate layout clockwise
