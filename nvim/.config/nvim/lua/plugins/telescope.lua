@@ -21,6 +21,15 @@ return {
                         height = { padding = 0 },
                         preview_cutoff = 1,
                     },
+                    vimgrep_arguments = {
+                        "/opt/homebrew/bin/rg",
+                        "--color=never",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                    },
                     mappings = {
                         i = {
                             ["<c-d>"] = action.delete_buffer,
