@@ -1,4 +1,4 @@
-vim.opt_local.textwidth = 90
+vim.opt_local.textwidth = 110
 vim.cmd("setlocal colorcolumn=+1")
 
 -- formatting table

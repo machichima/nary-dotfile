@@ -1,7 +1,7 @@
 vim.keymap.set("n", "<C-n>", ":cnext<CR>zz", { noremap = true, silent = true})
 vim.keymap.set("n", "<C-p>", ":cprev<CR>zz", { noremap = true, silent = true})
 
-vim.opt_local.textwidth = 90
+vim.opt_local.textwidth = 110
 vim.cmd("setlocal colorcolumn=+1")
 
 -- formatting table
