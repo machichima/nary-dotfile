@@ -277,6 +277,21 @@ return {
                         buildFlags = "-tags console -v",
                         cwd = vim.fn.getcwd(),
                     },
+                    {
+                        type = "go",
+                        name = "Debug (Cloud Devbox)",
+                        request = "launch",
+                        program = vim.fn.getcwd() .. "/" .. "devbox/main.go",
+                        args = {
+                            "start",
+                            "--config",
+                            vim.fn.getcwd() .. "/" .. "devbox/local.yaml",
+                        },
+                        env = {
+                            AWS_ENDPOINT_URL = "http://localhost:4566",
+                        },
+                        cwd = vim.fn.getcwd(),
+                    },
                     -- {
                     --     type = "go",
                     --     name = "Debug (Flyte Spark config)",
