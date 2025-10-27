@@ -20,6 +20,7 @@ return {
                         width = { padding = 0 },
                         height = { padding = 0 },
                         preview_cutoff = 1,
+                        preview_width = 0.5,
                     },
                     vimgrep_arguments = {
                         "/opt/homebrew/bin/rg",
@@ -33,9 +34,11 @@ return {
                     mappings = {
                         i = {
                             ["<c-d>"] = action.delete_buffer,
+                            ["<M-q>"] = action.send_to_qflist + action.open_qflist,
                         },
                         n = {
                             ["<c-d>"] = action.delete_buffer,
+                            ["<M-q>"] = action.send_to_qflist + action.open_qflist,
                         },
                     },
                     -- other defaults configuration here
@@ -105,8 +108,15 @@ return {
             )
 
             -- lsp
-            vim.keymap.set("n", "<leader>ci", builtin.lsp_incoming_calls, {desc = "Telescope: List LSP incoming calls for word under the cursor"})
-            vim.keymap.set("n", "<leader>co", builtin.lsp_incoming_calls, {desc = "Telescope: List LSP outgoing calls for word under the cursor"})
+            vim.keymap.set("n", "<leader>ci", function()
+                builtin.lsp_incoming_calls({ fname_width = 60 })
+            end, {desc = "Telescope: List LSP incoming calls for word under the cursor"})
+            vim.keymap.set("n", "<leader>co", function()
+                builtin.lsp_outgoing_calls({ fname_width = 60 })
+            end, {desc = "Telescope: List LSP outgoing calls for word under the cursor"})
+            vim.keymap.set("n", "<leader>cm", function()
+                builtin.lsp_implementations({ fname_width = 60 })
+            end, {desc = "Telescope: List LSP implementations for word under the cursor"})
 
             vim.keymap.set("n", "<C-h>", builtin.help_tags, {})
             vim.keymap.set("n", "<leader>b", builtin.buffers, {})
