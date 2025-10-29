@@ -20,7 +20,6 @@ return {
                         width = { padding = 0 },
                         height = { padding = 0 },
                         preview_cutoff = 1,
-                        preview_width = 0.5,
                     },
                     vimgrep_arguments = {
                         "/opt/homebrew/bin/rg",
