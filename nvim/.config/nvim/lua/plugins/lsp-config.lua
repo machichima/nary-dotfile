@@ -185,6 +185,25 @@ return {
                     }
                 end,
 
+                ["gopls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.gopls.setup({
+                        settings = {
+                            gopls = {
+                                -- Include integration tests and other build tags
+                                buildFlags = { "-tags=integration" },
+                                -- Analyze test files
+                                analyses = {
+                                    unusedparams = true,
+                                    shadow = false,
+                                },
+                                -- Enable all experimentalFeatures
+                                staticcheck = true,
+                            },
+                        },
+                    })
+                end,
+
                 -- and will be called for each installed server that doesn't have
                 -- The first entry (without a key) will be the default handler
                 -- a dedicated handler.
