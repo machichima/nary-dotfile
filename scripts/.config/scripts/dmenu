@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+choose -u -b fabd2f -c 427b58 -s 14 -n 15 "$@" <&0

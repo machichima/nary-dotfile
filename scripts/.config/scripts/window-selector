@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+windows=$(yabai -m query --windows --space)
+selection=$(echo "$windows" | jq -r '.[] | "\(.app): \(.title)"' | dmenu -i)
+
+if [[ -n "$selection" ]]; then
+    window_id=$(echo "$windows" | jq -r ".[] | select(\"\(.app): \(.title)\" == \"$selection\") | .id")
+    yabai -m window --focus "$window_id"
+fi
