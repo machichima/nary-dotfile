@@ -64,16 +64,16 @@ return {
             })
 
             dap.listeners.before.attach.dapui_config = function()
-                dapui.open({ layout = 4 }) -- open repl only
+                dapui.open({ layout = 4 }) -- open repl
             end
             dap.listeners.before.launch.dapui_config = function()
-                dapui.open({ layout = 4 })
+                dapui.open({ layout = 4 }) -- open repl
             end
             dap.listeners.before.event_terminated.dapui_config = function()
-                dapui.close()
+                -- Don't close - keeps test output visible in console after test ends
             end
             dap.listeners.before.event_exited.dapui_config = function()
-                dapui.close()
+                -- Don't close - keeps test output visible in console after test ends
             end
 
             -- NOTE: this is set above
@@ -89,9 +89,15 @@ return {
             vim.keymap.set("n", "<F11>", dap.step_into, { desc = "dap step into" })
             vim.keymap.set("n", "<F12>", dap.step_out, { desc = "dap step out" })
 
-            vim.keymap.set("n", "<leader>dt", function()
-                require("dap-python").test_method({ console = "internalConsole", config = { justMyCode = false } })
-            end, { desc = "debug python test" })
+            -- Python test debugging - filetype specific
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "python",
+                callback = function()
+                    vim.keymap.set("n", "<leader>dt", function()
+                        require("dap-python").test_method({ console = "internalConsole", config = { justMyCode = false } })
+                    end, { desc = "debug python test", buffer = true })
+                end,
+            })
 
             vim.keymap.set("n", "<Leader>dl", dap.run_last, {})
 
@@ -176,13 +182,16 @@ return {
             local dap_ui = require("dapui")
             --
             -- adapters configuration
+            -- Use port = ${port} to let dlv pick a random free port
+            -- This allows multiple simultaneous debug sessions
             dap.adapters.go = {
                 type = "server",
-                host = "127.0.0.1",
-                port = 37365,
+                port = "${port}",
                 executable = {
                     command = "dlv",
-                    args = { "dap", "--listen=127.0.0.1:37365", "--log" },
+                    args = { "dap", "-l", "127.0.0.1:${port}" },
+                    -- detached = false means the debug adapter will be killed when nvim exits
+                    detached = vim.fn.has("win32") == 0,
                 },
             }
 
@@ -213,6 +222,156 @@ return {
             end
 
             vim.keymap.set("n", "<leader>cf", get_current_function_name, { desc = "test capture function" })
+
+            -- Helper function to detect build tags in current file
+            local function get_build_tags()
+                local file_path = vim.fn.expand("%:p")
+                local file = io.open(file_path, "r")
+                if not file then return "" end
+
+                -- Read first 10 lines to find build tags
+                local tags = {}
+                for i = 1, 10 do
+                    local line = file:read("*l")
+                    if not line then break end
+
+                    -- Match //go:build tag1,tag2 or // +build tag1 tag2
+                    local build_constraint = line:match("^//go:build%s+(.+)") or line:match("^//%s*%+build%s+(.+)")
+                    if build_constraint then
+                        -- Parse tags (handle AND, OR, NOT logic)
+                        for tag in build_constraint:gmatch("[%w_]+") do
+                            table.insert(tags, tag)
+                        end
+                    end
+                end
+                file:close()
+
+                if #tags > 0 then
+                    return "-tags=" .. table.concat(tags, ",")
+                end
+                return ""
+            end
+
+            -- Helper function to get test function name using treesitter
+            local function get_go_test_name()
+                local ts_utils = require("nvim-treesitter.ts_utils")
+                local current_node = ts_utils.get_node_at_cursor()
+                if not current_node then
+                    return nil
+                end
+
+                -- Walk up the tree to find function_declaration
+                local expr = current_node
+                while expr do
+                    if expr:type() == "function_declaration" then
+                        -- Get the function name
+                        for child in expr:iter_children() do
+                            if child:type() == "identifier" then
+                                local name = vim.treesitter.get_node_text(child, 0)
+                                -- Only return if it's a test function (starts with Test)
+                                if name:match("^Test") then
+                                    return name
+                                end
+                            end
+                        end
+                    end
+                    expr = expr:parent()
+                end
+
+                -- Fallback: try to get word under cursor if it looks like a test
+                local word = vim.fn.expand("<cword>")
+                if word:match("^Test") then
+                    return word
+                end
+
+                return nil
+            end
+
+            -- Go test debugging - filetype specific
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "go",
+                callback = function()
+                    vim.keymap.set("n", "<leader>dt", function()
+                        local test_name = get_go_test_name()
+                        local build_flags = get_build_tags()
+
+                        local config = {
+                            type = "go",
+                            name = "Debug Test",
+                            request = "launch",
+                            mode = "test",
+                            program = "${fileDirname}",
+                            dlvCwd = "${fileDirname}",
+                            showLog = true,
+                        }
+
+                        -- Add test filter if we found a test name
+                        if test_name and test_name ~= "" then
+                            config.args = { "-test.run", "^" .. test_name .. "$" }
+                            config.name = "Debug Test: " .. test_name
+                        else
+                            -- Run all tests in the file if no specific test found
+                            config.args = {}
+                            config.name = "Debug All Tests"
+                            vim.notify("No test function found under cursor, running all tests", vim.log.levels.WARN)
+                        end
+
+                        -- Only add buildFlags if tags were found
+                        if build_flags ~= "" then
+                            config.buildFlags = build_flags
+                        end
+
+                        dap.run(config)
+                    end, { desc = "debug go test (auto-detect tags)", buffer = true })
+                end,
+            })
+
+            -- List and switch between active debug sessions
+            vim.keymap.set("n", "<leader>dL", function()
+                local sessions = dap.sessions()
+                if vim.tbl_isempty(sessions) then
+                    vim.notify("No active debug sessions", vim.log.levels.WARN)
+                    return
+                end
+
+                local items = {}
+                for session_id, session in pairs(sessions) do
+                    local config = session.config
+                    table.insert(items, {
+                        text = string.format("[%d] %s", session_id, config.name or "Unnamed"),
+                        session_id = session_id,
+                    })
+                end
+
+                vim.ui.select(items, {
+                    prompt = "Select debug session:",
+                    format_item = function(item)
+                        return item.text
+                    end,
+                }, function(choice)
+                    if choice then
+                        dap.set_session(dap.sessions()[choice.session_id])
+                        vim.notify("Switched to session: " .. choice.text, vim.log.levels.INFO)
+                    end
+                end)
+            end, { desc = "list and switch debug sessions" })
+
+            -- Show active debug sessions count
+            vim.keymap.set("n", "<leader>dI", function()
+                local sessions = dap.sessions()
+                local count = 0
+                local names = {}
+                for _, session in pairs(sessions) do
+                    count = count + 1
+                    table.insert(names, session.config.name or "Unnamed")
+                end
+
+                if count == 0 then
+                    vim.notify("No active debug sessions", vim.log.levels.INFO)
+                else
+                    vim.notify(string.format("%d active session(s):\n- %s", count, table.concat(names, "\n- ")), vim.log.levels.INFO)
+                end
+            end, { desc = "show debug session info" })
 
             local function get_build_info()
                 local handle = io.popen("date '+%F %T'")
@@ -488,6 +647,27 @@ return {
                 indent = 1,
                 max_value_lines = 100,
             },
+            element_mappings = {},
+            floating = {
+                border = "single",
+                mappings = {
+                    close = { "q", "<Esc>" },
+                },
+            },
+            windows = { indent = 1 },
         },
+        config = function(_, opts)
+            local dapui = require("dapui")
+            dapui.setup(opts)
+
+            -- Enable line wrapping for REPL window
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "dapui_repl",
+                callback = function()
+                    vim.opt_local.wrap = true
+                    vim.opt_local.linebreak = true
+                end,
+            })
+        end,
     },
 }
