@@ -3,7 +3,7 @@ return {
 	priority = 1000,
 	config = function()
 		require("tokyonight").setup({
-			style = "storm", -- Options: "storm", "moon", "night", "day"
+			style = "moon", -- Options: "storm", "moon", "night", "day"
 			transparent = false,
 			terminal_colors = true,
 			styles = {
@@ -22,5 +22,9 @@ return {
 			vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#778E98", bold = false })
 		end
 		LineNumberColors()
+
+		-- Make visual selection more obvious
+		vim.api.nvim_set_hl(0, "Visual", { bg = "#2d3f6f" })
+		vim.api.nvim_set_hl(0, "VisualNOS", { bg = "#2d3f6f" })
 	end,
 }
