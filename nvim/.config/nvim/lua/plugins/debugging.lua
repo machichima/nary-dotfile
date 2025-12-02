@@ -23,7 +23,97 @@ return {
     {
         "mfussenegger/nvim-dap",
         dependencies = {
-            "rcarriga/nvim-dap-ui",
+            {
+                "rcarriga/nvim-dap-ui",
+                dependencies = { "nvim-neotest/nvim-nio" },
+                opts = {
+                    layouts = {
+                        { -- 1
+                            elements = {
+                                {
+                                    id = "watches",
+                                    size = 1,
+                                },
+                            },
+                            position = "left",
+                            size = 40,
+                        },
+                        { -- 2
+                            elements = {
+                                {
+                                    id = "stacks",
+                                    size = 1,
+                                },
+                            },
+                            position = "left",
+                            size = 40,
+                        },
+                        { -- 3
+                            elements = {
+                                {
+                                    id = "scopes",
+                                    size = 1,
+                                },
+                            },
+                            position = "left",
+                            size = 40,
+                        },
+                        { -- 4
+                            elements = {
+                                {
+                                    id = "repl",
+                                    size = 1,
+                                },
+                            },
+                            position = "bottom",
+                            size = 15,
+                        },
+                        { -- 5
+                            elements = {
+                                {
+                                    id = "console",
+                                    size = 1,
+                                },
+                            },
+                            position = "bottom",
+                            size = 15,
+                        },
+                    },
+                    mappings = {
+                        edit = "e",
+                        expand = { "<CR>", "<2-LeftMouse>" },
+                        open = "o",
+                        remove = "d",
+                        repl = "r",
+                        toggle = "t",
+                    },
+                    render = {
+                        indent = 1,
+                        max_value_lines = 100,
+                    },
+                    element_mappings = {},
+                    floating = {
+                        border = "single",
+                        mappings = {
+                            close = { "q", "<Esc>" },
+                        },
+                    },
+                    windows = { indent = 1 },
+                },
+                config = function(_, opts)
+                    local dapui = require("dapui")
+                    dapui.setup(opts)
+
+                    -- Enable line wrapping for REPL window
+                    vim.api.nvim_create_autocmd("FileType", {
+                        pattern = "dapui_repl",
+                        callback = function()
+                            vim.opt_local.wrap = true
+                            vim.opt_local.linebreak = true
+                        end,
+                    })
+                end,
+            },
             "nvim-neotest/nvim-nio",
             "mfussenegger/nvim-dap-python",
         },
@@ -577,97 +667,6 @@ return {
                 "DapStopped",
                 { text = "", texthl = "DapStopped", linehl = "DapStoppedLine", numhl = "DapStopped" }
             )
-        end,
-    },
-
-    {
-        "rcarriga/nvim-dap-ui",
-        opts = {
-            layouts = {
-                { -- 1
-                    elements = {
-                        {
-                            id = "watches",
-                            size = 1,
-                        },
-                    },
-                    position = "left",
-                    size = 40,
-                },
-                { -- 2
-                    elements = {
-                        {
-                            id = "stacks",
-                            size = 1,
-                        },
-                    },
-                    position = "left",
-                    size = 40,
-                },
-                { -- 3
-                    elements = {
-                        {
-                            id = "scopes",
-                            size = 1,
-                        },
-                    },
-                    position = "left",
-                    size = 40,
-                },
-                { -- 4
-                    elements = {
-                        {
-                            id = "repl",
-                            size = 1,
-                        },
-                    },
-                    position = "bottom",
-                    size = 15,
-                },
-                { -- 5
-                    elements = {
-                        {
-                            id = "console",
-                            size = 1,
-                        },
-                    },
-                    position = "bottom",
-                    size = 15,
-                },
-            },
-            mappings = {
-                edit = "e",
-                expand = { "<CR>", "<2-LeftMouse>" },
-                open = "o",
-                remove = "d",
-                repl = "r",
-                toggle = "t",
-            },
-            render = {
-                indent = 1,
-                max_value_lines = 100,
-            },
-            element_mappings = {},
-            floating = {
-                border = "single",
-                mappings = {
-                    close = { "q", "<Esc>" },
-                },
-            },
-            windows = { indent = 1 },
-        },
-        config = function(_, opts)
-            local dapui = require("dapui")
-            dapui.setup(opts)
-
-            -- Enable line wrapping for REPL window
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = "dapui_repl",
-                callback = function()
-                    vim.opt_local.wrap = true
-                    vim.opt_local.linebreak = true
-                end,
-            })
         end,
     },
 }
