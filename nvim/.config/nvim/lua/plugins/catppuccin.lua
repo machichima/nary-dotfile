@@ -6,7 +6,7 @@ return {
 		require("catppuccin").setup({
 			flavour = "macchiato",
 		})
-		vim.cmd.colorscheme("catppuccin")
+		-- vim.cmd.colorscheme("catppuccin")  -- Disabled, using tokyonight instead
 		-- Sets colors to line numbers Above, Current and Below  in this order
 		function LineNumberColors()
 			vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#778E98", bold = false })
