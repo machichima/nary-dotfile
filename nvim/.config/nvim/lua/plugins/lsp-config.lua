@@ -390,14 +390,18 @@ return {
                 severity_sort = true,
             })
 
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-                max_width = 80,      -- Limit the width of the popup
-                max_height = 10,     -- Limit the height of the popup
-                focusable = false,   -- Prevent focus on the popup
-                relative = "cursor", -- Position it relative to the cursor
-                row = 1,             -- Position below the cursor
-                col = 0,
-            })
+            -- Set default border for LSP floating windows
+            require('lspconfig.ui.windows').default_options.border = 'rounded'
+
+            -- Override vim.lsp.util.open_floating_preview to set width limits
+            local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+            function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+                opts = opts or {}
+                opts.border = opts.border or 'rounded'
+                opts.max_width = opts.max_width or 80
+                opts.max_height = opts.max_height or 30
+                return orig_util_open_floating_preview(contents, syntax, opts, ...)
+            end
             -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
             -- 	border = "single", -- Add a border around the popup
             -- 	max_width = 80, -- Limit the width of the popup

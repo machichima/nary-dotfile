@@ -83,7 +83,8 @@ return {
                 "toml",
                 "vimdoc",
                 "yaml",
-                -- 'markdown'
+                "markdown",
+                "markdown_inline",
             },
             -- auto_install = true,
             highlight = { enable = true },

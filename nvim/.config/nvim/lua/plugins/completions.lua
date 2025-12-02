@@ -33,6 +33,7 @@ return {
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+            local lspkind = require("lspkind")
             require("luasnip.loaders.from_vscode").lazy_load()
 
             cmp.setup({
@@ -70,10 +71,10 @@ return {
                     { name = "buffer" },
                 }),
                 formatting = {
-                    format = function(entry, vim_item)
-                        vim_item.abbr = string.sub(vim_item.abbr, 1, 20)
-                        return vim_item
-                    end
+                    format = lspkind.cmp_format({
+                        maxwidth = 50,
+                        ellipsis_char = "...",
+                    }),
                 },
                 view = {
                     entries = "follow_cursor",
