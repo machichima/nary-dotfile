@@ -332,6 +332,21 @@ return {
                 },
             })
 
+            -- protobuf
+            -- add protobuf lsp to lsp config
+            -- auto setup in mason does not work as mason lsp config does not recognise protols
+            lspconfig.protols.setup({
+                capabilities = capabilities,
+                -- Use buf.yaml for workspace configuration
+                root_dir = lspconfig.util.root_pattern("buf.yaml", "buf.work.yaml", ".git"),
+                cmd = {
+                    "protols",
+                    -- Tell protols to include the flyte2 directory in the proto path
+                    "-I", vim.fn.getcwd() .. "/flyte2",
+                    "-I", vim.fn.getcwd() .. "/idl",
+                },
+            })
+
             local function get_quarto_resource_path()
                 local function strsplit(s, delimiter)
                     local result = {}
@@ -402,15 +417,11 @@ return {
                 opts.max_height = opts.max_height or 30
                 return orig_util_open_floating_preview(contents, syntax, opts, ...)
             end
-            -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-            -- 	border = "single", -- Add a border around the popup
-            -- 	max_width = 80, -- Limit the width of the popup
-            -- 	max_height = 10, -- Limit the height of the popup
-            -- 	focusable = false, -- Prevent focus on the popup
-            -- 	relative = "cursor", -- Position it relative to the cursor
-            -- 	row = 1, -- Position below the cursor
-            -- 	col = 0,
-            -- })
+            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+            	border = "rounded",
+            	max_width = 80,
+            	max_height = 30,
+            })
         end,
     },
 }
