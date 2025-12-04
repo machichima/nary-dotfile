@@ -85,6 +85,7 @@ return {
                 "yaml",
                 "markdown",
                 "markdown_inline",
+                "go",
             },
             -- auto_install = true,
             highlight = { enable = true },
