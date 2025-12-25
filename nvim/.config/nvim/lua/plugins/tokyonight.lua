@@ -26,5 +26,14 @@ return {
 		-- Make visual selection more obvious
 		vim.api.nvim_set_hl(0, "Visual", { bg = "#2d3f6f" })
 		vim.api.nvim_set_hl(0, "VisualNOS", { bg = "#2d3f6f" })
+
+        -- Set diff highlight (mainly used in DiffView)
+        vim.api.nvim_set_hl(0, "DiffAdd", {bg = "#1e3a20"})
+        vim.api.nvim_set_hl(0, "DiffDelete", {bg = "#37222c"})
+        vim.api.nvim_set_hl(0, "DiffChange", {bg = "#3d3052"})
+        vim.api.nvim_set_hl(0, "DiffText", {bg = "#5a4a70"})
+
+        -- Make diff delete fill character empty (no ugly ---)
+        vim.opt.fillchars:append("diff: ")
 	end,
 }
